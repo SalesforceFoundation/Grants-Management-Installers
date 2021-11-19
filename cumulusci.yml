@@ -1,0 +1,13 @@
+minimum_cumulusci_version: "3.33.1"
+project:
+    name: SFDO-Grants
+    package:
+        name: Grants Management
+        namespace: sfdo_grants
+        api_version: "52.0"
+    dependencies:
+        - github: https://github.com/SalesforceFoundation/sfdo-base
+        - github: https://github.com/SalesforceFoundation/OutboundFunds
+    git:
+        repo_url: https://github.com/SalesforceFoundation/Grants-Management-Installers
+        default_branch: main
