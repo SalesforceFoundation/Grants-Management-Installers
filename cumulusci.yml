@@ -12,7 +12,8 @@ project:
         namespace: sfdo_grants
         api_version: "52.0"
     dependencies:
-        - github: https://github.com/SalesforceFoundation/sfdo-base
+        - namespace: sfdobase
+          version: 1.0
         - github: https://github.com/SalesforceFoundation/OutboundFunds
     git:
         repo_url: https://github.com/SalesforceFoundation/Grants-Management-Installers
