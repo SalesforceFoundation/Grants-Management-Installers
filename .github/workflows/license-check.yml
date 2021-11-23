@@ -1,7 +1,7 @@
 name: License check
 on: [push]
 jobs:
-  eslint:
+  license-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
