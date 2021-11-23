@@ -1,0 +1,18 @@
+# Copyright (c) 2021, salesforce.com, inc.
+# All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause
+# For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+minimum_cumulusci_version: "3.33.1"
+project:
+    name: SFDO-Grants
+    package:
+        name: Grants Management
+        namespace: sfdo_grants
+        api_version: "52.0"
+    dependencies:
+        - namespace: sfdobase
+          version: 1.0
+        - github: https://github.com/SalesforceFoundation/OutboundFunds
+    git:
+        repo_url: https://github.com/SalesforceFoundation/Grants-Management-Installers
+        default_branch: main
