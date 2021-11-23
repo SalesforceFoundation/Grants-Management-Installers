@@ -1,0 +1,20 @@
+{
+    "ignore": ["**/*.md", "yarn.lock"],
+    "license": "LICENSE.header.txt",
+    "licenseFormats": {
+        "js": {
+            "prepend": "/*",
+            "append": " */",
+            "eachLine": {
+                "prepend": " * "
+            }
+        },
+        "dotfile|^Dockerfile|yml|^CODEOWNERS": {
+            "eachLine": {
+                "prepend": "# "
+            }
+        }
+    },
+    "trailingWhitespace": "TRIM",
+    "regexIdentifier": "##"
+}
