@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>Assign Funding Request for flow output.</description>
+        <name>AssignOutputFundingRequest</name>
+        <label>Assign output Funding Request</label>
+        <locationX>842</locationX>
+        <locationY>758</locationY>
+        <assignmentItems>
+            <assignToReference>OutputFundingRequest</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FundingRequest</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>Builds a new Funding Request record and changes its Status to In Progress.</description>
+        <name>BuildNewFundingRequest</name>
+        <label>Build New Funding Request</label>
+        <locationX>314</locationX>
+        <locationY>758</locationY>
+        <assignmentItems>
+            <assignToReference>NewFundingRequest.outfunds__FundingProgram__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>NewFundingRequest.outfunds__Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>In progress</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>NewFundingRequest.Name</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FundingRequestName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>NewFundingRequest.outfunds__Applying_Contact__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$User.ContactId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>NewFundingRequest.outfunds__Applying_Organization__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>AccountId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CreateNewFundingRequest</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Determines if a Funding Program is found.</description>
+        <name>IsFundingProgramFound</name>
+        <label>Is Funding Program Found?</label>
+        <locationX>644</locationX>
+        <locationY>398</locationY>
+        <defaultConnector>
+            <targetReference>FundingRequest</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>IsLaunchedFromFundingProgram</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FundingProgram</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>UserContact</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>If a Funding Request is found, the grantseeker proceeds to step 14. If a Funding Request isn&apos;t found, they see an error message.</description>
+        <name>IsFundingRequestFound</name>
+        <label>Funding Request Found?</label>
+        <locationX>974</locationX>
+        <locationY>638</locationY>
+        <defaultConnector>
+            <targetReference>FundingRequestNotFoundError</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not found</defaultConnectorLabel>
+        <rules>
+            <name>FundingRequestFound</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FundingRequest</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>AssignOutputFundingRequest</targetReference>
+            </connector>
+            <label>Found; go to application</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Checks if the grantseeker is logged in to the grantee portal.</description>
+        <name>IsLoggedInDecision</name>
+        <label>Is the User Logged In?</label>
+        <locationX>347</locationX>
+        <locationY>158</locationY>
+        <defaultConnector>
+            <targetReference>FundingProgram</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Is logged in</defaultConnectorLabel>
+        <rules>
+            <name>NotLoggedInDecision</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$User.UserType</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Guest</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>LoginOrSignUpScreen</targetReference>
+            </connector>
+            <label>Not logged in</label>
+        </rules>
+    </decisions>
+    <description>The Grants Management: Application Form Launcher (Sample) is the logic to launch the Grants Management: Multi-Section Application Form Screen (Sample). Clone this sample flow and make updates that fit your organization&apos;s needs. To learn more about flows, see Flows (https://help.salesforce.com/articleView?id=sf.flow.htm&amp;type=5) in Salesforce Help or take the Flow Basics Trailhead (https://trailhead.salesforce.com/content/learn/modules/flow-basics).</description>
+    <formulas>
+        <description>Safely returns the queried Contact.Account.BillingCity even if the User is not related to a Contact (for example, they aren&apos;t a site user).</description>
+        <name>AccountBillingCity</name>
+        <dataType>String</dataType>
+        <expression>BLANKVALUE({!UserContact.Account.BillingCity}, &quot;&quot;)</expression>
+    </formulas>
+    <formulas>
+        <description>Safely returns the queried Contact.Account.BillingPostalCode even if the User is not related to a Contact (for example, they aren&apos;t a site user).</description>
+        <name>AccountBillingPostalCode</name>
+        <dataType>String</dataType>
+        <expression>BLANKVALUE({!UserContact.Account.BillingPostalCode}, &quot;&quot;)</expression>
+    </formulas>
+    <formulas>
+        <description>Safely returns the queried Contact.Account.BillingState even if the User is not related to a Contact (for example, they aren&apos;t a site user).</description>
+        <name>AccountBillingState</name>
+        <dataType>String</dataType>
+        <expression>BLANKVALUE({!UserContact.Account.BillingState}, &quot;&quot;)</expression>
+    </formulas>
+    <formulas>
+        <description>Safely returns the queried Contact.Account.BillingStreet even if the User is not related to a Contact (for example, they aren&apos;t a site user).</description>
+        <name>AccountBillingStreet</name>
+        <dataType>String</dataType>
+        <expression>BLANKVALUE({!UserContact.Account.BillingStreet}, &quot;&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>AccountId</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!$User.ContactId}), null, BLANKVALUE({!UserContact.AccountId}, null))</expression>
+    </formulas>
+    <formulas>
+        <description>Safely returns the queried Contact.Account.Name even if the User is not related to a Contact (for example, they aren&apos;t a site user).</description>
+        <name>AccountName</name>
+        <dataType>String</dataType>
+        <expression>BLANKVALUE({!UserContact.Account.Name}, &quot;&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>AccountTaxId</name>
+        <dataType>String</dataType>
+        <expression>BLANKVALUE({!UserContact.Account.%%%NAMESPACE%%%Tax_ID__c}, &quot;&quot;)</expression>
+    </formulas>
+    <formulas>
+        <description>Concatenate Contact Name + Program Name</description>
+        <name>FundingRequestName</name>
+        <dataType>String</dataType>
+        <expression>{!FundingProgram.Name} &amp; &quot;: &quot; &amp; {!UserContact.Account.Name}</expression>
+    </formulas>
+    <interviewLabel>Grants Management: Application Form Launcher (Sample) {!$Flow.CurrentDateTime}</interviewLabel>
+    <isTemplate>true</isTemplate>
+    <label>Grants Management: Application Form Launcher (Sample)</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordCreates>
+        <description>Creates the new Funding Request record.</description>
+        <name>CreateNewFundingRequest</name>
+        <label>Create New Funding Request</label>
+        <locationX>314</locationX>
+        <locationY>878</locationY>
+        <connector>
+            <targetReference>NavigateToNewApplicationScreen</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>ErrorNotification</targetReference>
+        </faultConnector>
+        <inputReference>NewFundingRequest</inputReference>
+    </recordCreates>
+    <recordLookups>
+        <description>Searches for the Funding Program that the grantseeker is applying to.</description>
+        <name>FundingProgram</name>
+        <label>Get Funding Program</label>
+        <locationX>644</locationX>
+        <locationY>278</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>IsFundingProgramFound</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>outfunds__Funding_Program__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Searches for and finds the Funding Request.</description>
+        <name>FundingRequest</name>
+        <label>Get Funding Request</label>
+        <locationX>974</locationX>
+        <locationY>518</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>IsFundingRequestFound</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>outfunds__Funding_Request__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Searches for and finds the User&apos;s Contact record, then shows information about the grantseeker&apos;s organization as long as the Contact is not related to the grantee portal&apos;s self-registration Account. If the grantseeker isn&apos;t a grantee portal user or the user is related to the site&apos;s self-registration Account, no record is returned.</description>
+        <name>UserContact</name>
+        <label>Get User’s Contact Record</label>
+        <locationX>314</locationX>
+        <locationY>518</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>ConfirmUserAndOrganizationInformation</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$User.ContactId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <runInMode>SystemModeWithSharing</runInMode>
+    <screens>
+        <description>Shows a screen that lets the grantseeker confirm their User and organization information.</description>
+        <name>ConfirmUserAndOrganizationInformation</name>
+        <label>Confirm User and Organization Information</label>
+        <locationX>314</locationX>
+        <locationY>638</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>BuildNewFundingRequest</targetReference>
+        </connector>
+        <fields>
+            <name>ContinueApplicationConfirmationMessage</name>
+            <fieldText>&lt;p&gt;Click &lt;b&gt;Next&lt;/b&gt; to start a new application.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;To view an in progress application, close this window then click &lt;b&gt;My Applications&lt;/b&gt;.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>Shows a message if the record can’t be saved due to an error in the flow.</description>
+        <name>ErrorNotification</name>
+        <label>Error Notification</label>
+        <locationX>578</locationX>
+        <locationY>998</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>false</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>ErrorNotification_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>ErrorNotification_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ErrorMessage</name>
+                    <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 18px;&quot;&gt;Error&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;{!$Flow.FaultMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>$Flow.FaultMessage</leftValueReference>
+                    <operator>IsNull</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>Shows a message if the Funding Request is not found.</description>
+        <name>FundingRequestNotFoundError</name>
+        <label>Funding Request not found error</label>
+        <locationX>1106</locationX>
+        <locationY>758</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>false</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>FundingRequestNotFoundError_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>FundingRequestNotFoundError_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>FundingRequestNotFound_0</name>
+                    <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 18px;&quot;&gt;Error&lt;/b&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;: Funding request not found.&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>FundingRequest.Id</leftValueReference>
+                    <operator>IsNull</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>Prompts the grantseeker to log in or register for an account as appropriate.</description>
+        <name>LoginOrSignUpScreen</name>
+        <label>Login or Register</label>
+        <locationX>50</locationX>
+        <locationY>278</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>LoginOrSignUpMessage</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;You need to&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;/fundingprograms/s/login&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;log in&lt;/a&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;&amp;nbsp;to or&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;/fundingprograms/s/login/SelfRegister&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;sign up&lt;/a&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;&amp;nbsp;for an account before you can apply for funding.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>Navigates the grantseeker to the new Funding Request record. This relaunches the flow from the start to show the application.</description>
+        <name>NavigateToNewApplicationScreen</name>
+        <label>Navigate to Application</label>
+        <locationX>314</locationX>
+        <locationY>998</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>NavigateToApplicationMessage</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px; background-color: rgb(255, 255, 255);&quot;&gt;Saving&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>NavigateToNewApplication</name>
+            <extensionName>%%%NAMESPACE_OR_C%%%:flowNavigateToRecord</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>recordId</name>
+                <value>
+                    <elementReference>NewFundingRequest.Id</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>221</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>IsLoggedInDecision</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>CurrentStageLabel</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>A new Funding Request for the Funding Program</description>
+        <name>NewFundingRequest</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>outfunds__Funding_Request__c</objectType>
+    </variables>
+    <variables>
+        <name>OutputFundingRequest</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>outfunds__Funding_Request__c</objectType>
+    </variables>
+    <variables>
+        <description>Depending on where the flow is launched from, the Funding Program or Funding Request Id.</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

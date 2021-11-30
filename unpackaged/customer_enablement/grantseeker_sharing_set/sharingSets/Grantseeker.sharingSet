@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <accessMappings>
+        <accessLevel>Read</accessLevel>
+        <object>outfunds__Funding_Request__c</object>
+        <objectField>outfunds__Applying_Contact__c</objectField>
+        <userField>Contact</userField>
+    </accessMappings>
+    <accessMappings>
+        <accessLevel>Edit</accessLevel>
+        <object>outfunds__Requirement__c</object>
+        <objectField>outfunds__Assigned__c.Contact</objectField>
+        <userField>Contact</userField>
+    </accessMappings>
+    <name>GrantseekerSharing</name>
+    <profiles>Grantseeker Plus Login</profiles>
+</SharingSet>

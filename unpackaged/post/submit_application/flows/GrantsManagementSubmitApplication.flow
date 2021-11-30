@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+<actionCalls>
+        <description>Sends the confirmation email that the application was submitted</description>
+        <name>Submit_Application_Email_Confirmation</name>
+        <label>Submit Application Email Confirmation</label>
+        <locationX>1402</locationX>
+        <locationY>41</locationY>
+        <actionName>outfunds__Funding_Request__c.%%%NAMESPACE%%%Submit_Application_Confirmation</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>SubmitSuccess</targetReference>
+        </connector>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>FundingRequest.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <assignments>
+        <description>Sets the application owner as the owner of the Contact&#39;s Account record.</description>
+        <name>ChangeApplicationOwnerAndStatus</name>
+        <label>Change application owner + status</label>
+        <locationX>772</locationX>
+        <locationY>42</locationY>
+        <assignmentItems>
+            <assignToReference>FundingRequest.OwnerId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>CommunityUserContact.Account.OwnerId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FundingRequest.outfunds__Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Submitted</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FundingRequest.outfunds__Application_Date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>UpdateApplication</targetReference>
+        </connector>
+    </assignments>
+    <constants>
+        <description>Session-based permission set granting edit access to Funding Request records the user also has sharing edit access.</description>
+        <name>PermissionSetToEditApplications</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>EditFundingRequest</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <description>An application can be submitted if both the running user is both a Community User and the running user is the owner of the application.</description>
+        <name>IsSubmittable</name>
+        <label>Is submittable</label>
+        <locationX>331</locationX>
+        <locationY>43</locationY>
+        <defaultConnector>
+            <targetReference>NotSubmittable</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>YesIsSubmittable</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formattedApplicationOwnerId</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>RunningUserId</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>IsCommunityUser</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ConfirmSubmit</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <description>A template to allow a community user to &quot;submit&quot; an application.   The flow currently allows an application to be submitted if both (1) the running user is a Community User and (2) the Community User owns the application record.   If the application is submittable, the application&#39;s owner is set as the owner of the Community User&#39;s Contact&#39;s Account record and the status is changed to &quot;Submitted&quot;.</description>
+    <formulas>
+        <description>The first 15 characters of the application&#39;s Owner ID</description>
+        <name>formattedApplicationOwnerId</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!FundingRequest.OwnerId}, 15)</expression>
+    </formulas>
+    <formulas>
+        <name>IsCommunityUser</name>
+        <dataType>Boolean</dataType>
+        <expression>NOT(ISBLANK({!$User.ContactId}))</expression>
+    </formulas>
+    <formulas>
+        <description>Running User&#39;s Contact ID</description>
+        <name>RunningUserContactId</name>
+        <dataType>String</dataType>
+        <expression>{!$User.ContactId}</expression>
+    </formulas>
+    <formulas>
+        <description>First 15 characters of the Running User&#39;s ID</description>
+        <name>RunningUserId</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!$User.Id}, 15)</expression>
+    </formulas>
+    <interviewLabel>SubmitApplication: {!recordId}: {!$Flow.CurrentDateTime}</interviewLabel>
+    <isTemplate>true</isTemplate>
+    <label>Submit Application</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <description>Query the Community User&#39;s Contact so we can set the application&#39;s Owner as the owner of the Community User&#39;s Contact&#39;s Account record.</description>
+        <name>CommunityUserContact</name>
+        <label>Community User Contact</label>
+        <locationX>640</locationX>
+        <locationY>41</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>ChangeApplicationOwnerAndStatus</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error</targetReference>
+        </faultConnector>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>RunningUserContactId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Query the application record so we can check if the current user can submit this application.</description>
+        <name>FundingRequest</name>
+        <label>Application</label>
+        <locationX>174</locationX>
+        <locationY>41</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>IsSubmittable</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error</targetReference>
+        </faultConnector>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>outfunds__Funding_Request__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>UpdateApplication</name>
+        <label>Update application</label>
+        <locationX>918</locationX>
+        <locationY>43</locationY>
+        <connector>
+            <targetReference>Submit_Application_Email_Confirmation</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error</targetReference>
+        </faultConnector>
+        <inputReference>FundingRequest</inputReference>
+    </recordUpdates>
+    <runInMode>SystemModeWithSharing</runInMode>
+    <screens>
+        <name>ConfirmSubmit</name>
+        <label>Confirm user wants to submit</label>
+        <locationX>499</locationX>
+        <locationY>41</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>CommunityUserContact</targetReference>
+        </connector>
+        <fields>
+            <name>SubmitConfirmation</name>
+            <fieldText>&lt;p&gt;Are you sure you want to submit this application?  The application cannot be edited once submitted.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Error</name>
+        <label>Error</label>
+        <locationX>526</locationX>
+        <locationY>578</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>ErrorMessage</name>
+            <fieldText>&lt;p&gt;We&#39;re sorry, but an error occurred processing your application.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Error:&lt;/p&gt;&lt;p&gt;{!$Flow.FaultMessage}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>NotSubmittable</name>
+        <label>NotSubmittable</label>
+        <locationX>340</locationX>
+        <locationY>219</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>NotSubmittableMessage</name>
+            <fieldText>&lt;p&gt;This application cannot be submitted at this time.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>SubmitSuccess</name>
+        <label>SubmitSuccess</label>
+        <locationX>1080</locationX>
+        <locationY>43</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>SubmitSuccessMessage</name>
+            <fieldText>&lt;p&gt;The application was submitted successfully.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>63</locationX>
+        <locationY>41</locationY>
+        <connector>
+            <targetReference>FundingRequest</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>ID of the application record.</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

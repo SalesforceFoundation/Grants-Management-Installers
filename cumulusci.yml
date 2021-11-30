@@ -1,7 +1,3 @@
-# Copyright (c) 2021, salesforce.com, inc.
-# All rights reserved.
-# SPDX-License-Identifier: BSD-3-Clause
-# For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
 minimum_cumulusci_version: "3.33.1"
 project:
     name: SFDO-Grants
@@ -9,10 +5,353 @@ project:
         name: Grants Management
         namespace: sfdo_grants
         api_version: "52.0"
+    source_format: sfdx
     dependencies:
-        - namespace: sfdobase
-          version: 1.0
+        - github: https://github.com/SalesforceFoundation/sfdo-base
         - github: https://github.com/SalesforceFoundation/OutboundFunds
     git:
-        repo_url: https://github.com/SalesforceFoundation/Grants-Management-Installers
+        repo_url: https://github.com/SalesforceFoundation/Grants-Management
+        prefix_beta: beta/
+        prefix_release: release/
         default_branch: main
+
+tasks:
+    # Flows
+    deploy_multi_stage_app_flow:
+        group: "Grants Management: Flows"
+        description: Deploys multi_stage_app_flow flows.
+        class_path: cumulusci.tasks.salesforce.Deploy
+        options:
+            path: unpackaged/post/multi_stage_app_flow
+
+    deploy_enhanced_application_flow:
+        group: "Grants Management: Flows"
+        description: Deploys enhanced_application flow.
+        class_path: cumulusci.tasks.salesforce.Deploy
+        options:
+            path: unpackaged/post/enhanced_application
+
+    deploy_funding_program_application_flow:
+        group: "Grants Management: Flows"
+        description: Deploys funding_program_application_flow flow.
+        class_path: cumulusci.tasks.salesforce.Deploy
+        options:
+            path: unpackaged/post/funding_program_application_flow
+
+    deploy_submit_application_flow:
+        group: "Grants Management: Flows"
+        description: Deploys submit_application flow.
+        class_path: cumulusci.tasks.salesforce.Deploy
+        options:
+            path: unpackaged/post/submit_application
+
+    deploy_validate_ein_flow:
+        group: "Grants Management: Flows"
+        description: Deploys validate_ein_flow flow.
+        class_path: cumulusci.tasks.salesforce.Deploy
+        options:
+            path: unpackaged/post/validate_ein_flow
+
+    # Experience Site
+    deploy_network_branding:
+        group: "Grants Management: Experience Site"
+        description: Deploys the NetworkBranding files for the Funding Program Portal.   Must be deployed after creating the "Funding Program Portal" Community.
+        class_path: cumulusci.tasks.salesforce.Deploy
+        options:
+            path: unpackaged/customer_enablement/network_branding
+
+    deploy_grantseeker_sharing_set:
+        group: "Grants Management: Experience Site"
+        description: Deploys the "Grantseeker" Sharing Set for community users.   Must be deployed after deploying the "Grantseeker Plus Login" Profile.
+        class_path: cumulusci.tasks.salesforce.Deploy
+        options:
+            path: unpackaged/customer_enablement/grantseeker_sharing_set
+
+    deploy_guest_user_profile:
+        group: "Grants Management: Experience Site"
+        description: Deploys the "Funding Program Portal Profile" profile for guest users.   Must be deployed after deploying the Funding Program Portal community.
+        class_path: cumulusci.tasks.salesforce.Deploy
+        options:
+            path: unpackaged/customer_enablement/guest_user_profile
+
+    deploy_navigation_menu:
+        group: "Grants Management: Experience Site"
+        class_path: cumulusci.tasks.salesforce.Deploy
+        description: Deploys the "Funding Program Portal Navigation" Navigation Menu for the "Funding Program Portal" Community/Network.   Must be deployed after creating the "Funding Program Portal" Community.
+        options:
+            path: unpackaged/customer_enablement/navigation_menu
+
+    create_grantseeker_community:
+        group: "Grants Management: Experience Site"
+        description: "Creates a community with the 'Grants' template"
+        class_path: cumulusci.tasks.salesforce.CreateCommunity
+        options:
+            template: Grantee Portal
+            name: Funding Program Portal
+            url_path_prefix: fundingprograms
+            timeout: 60000
+
+    publish_grantseeker_community:
+        group: "Grants Management: Experience Site"
+        description: Publishes the "Funding Program Portal" Community in the target org using the Connect API
+        class_path: cumulusci.tasks.salesforce.PublishCommunity
+        options:
+            name: Funding Program Portal
+
+    add_network_members:
+        group: "Grants Management: Experience Site"
+        description: "Create a NetworkMemberGroup record for the community user profile"
+        class_path: cumulusci.tasks.salesforce.network_member_group.CreateNetworkMemberGroups
+        options:
+            network_name: Funding Program Portal
+            profile_names:
+                - Grantseeker Plus Login
+
+    # Verification checks
+    create_verificationitem_document_type:
+        group: "Grants Management: Verification checks"
+        description: "Creates the 'Verification Item' Document Type for the due diligence process"
+        class_path: cumulusci.tasks.salesforce.insert_record.InsertRecord
+        options:
+            object: DocumentType
+            values:
+                DeveloperName: VerificationItem
+                MasterLabel: Verification Item
+                Language: en_us
+                Description: Identifies the Document Checklist Item is for due diligence verification.
+                isActive: True
+
+    create_taxstatussearch_document_type:
+        group: "Grants Management: Verification checks"
+        description: "Creates the 'Tax Status Search' Document Type for the due diligence verification process."
+        class_path: cumulusci.tasks.salesforce.insert_record.InsertRecord
+        options:
+            object: DocumentType
+            values:
+                DeveloperName: Tax_Status_Search
+                MasterLabel: Tax Status Search
+                Language: en_us
+                Description: Identifies the Document Checklist Item is for a tax status search Verification Check.
+                isActive: True
+
+    # Installation pre-flight checks
+    check_sharing_set_owds:
+        group: "Grants Management: Preflight Checks"
+        description: "Checks if the External Organization Wide Defaults (OWDs) for Funding request and Requirement are Private."
+        class_path: cumulusci.tasks.preflight.sobjects.CheckSObjectOWDs
+        options:
+            org_wide_defaults:
+                - api_name: outfunds__Funding_Request__c
+                  external_sharing_model: Private
+                - api_name: outfunds__Requirement__c
+                  external_sharing_model: Private
+
+    # Install packages to Admin profile only.
+    install_managed:
+        options:
+            security_type: NONE
+
+    install_managed_beta:
+        options:
+            security_type: NONE
+
+flows:
+    customer_org:
+        description: Installs only Grants Management and no configuration.
+        steps:
+            1:
+                task: update_dependencies
+            2:
+                task: deploy_pre
+                ui_options:
+                    template_content_assets:
+                        name: Deploy Visual Assets
+            4:
+                task: install_managed
+            5:
+                task: deploy_post
+                ui_options:
+                    funding_program_application_flow:
+                        name: Deploy Create Application Flow
+                    profiles:
+                        name: Deploy Profiles
+                    submit_application:
+                        name: Deploy Submit Application Flow
+                    enhanced_application:
+                        name: "Deploy Grants Management: Enhanced Application (Sample) Flow"
+                    validate_ein_flow:
+                        name: "Deploy Grants Management: Validate EIN (Sample) Flow"
+                    multi_stage_app_flow:
+                        name: "Deploy Grants Management: Multi-Section Application Form (Sample) Flows"
+            6:
+                task: install_managed
+                options:
+                    namespace: "outfundsnpspext"
+                    version: "1.2"
+                ui_options:
+                    name: "Install Outbound Funds NPSP Extension"
+                    is_required: False
+                checks:
+                    - when: "'npsp' not in tasks.get_installed_packages()"
+                      action: hide
+                when: "org_config.has_minimum_package_version('npsp', '1.0')"
+
+    customer_enablement:
+        description: Deploys our recommended unpackaged metadata and recommended configuration.
+        steps:
+            1:
+                task: create_grantseeker_community
+                ui_options:
+                    name: "Create the Funding Program Portal"
+                    is_required: True
+            2:
+                task: publish_grantseeker_community
+                ui_options:
+                    name: "Publish the Funding Program Portal"
+                    is_required: True
+            3:
+                task: deploy_navigation_menu
+                ui_options:
+                    name: "Install Funding Program Portal Navigation Menu"
+                    is_required: True
+            4:
+                task: add_network_members
+                ui_options:
+                    name: "Add Grantseeker Profile to Funding Program Portal"
+                    is_required: True
+            5:
+                task: deploy_grantseeker_sharing_set
+                ui_options:
+                    name: "Grant Visibility to Community Users"
+                    is_required: True
+                checks:
+                    - when: "not tasks.check_sharing_set_owds()"
+                      action: hide
+            6:
+                task: deploy_network_branding
+                ui_options:
+                    name: "Add Funding Program Portal Branding"
+                    is_required: True
+            7:
+                task: deploy_guest_user_profile
+                ui_options:
+                    name: "Update Funding Program Portal Profile (Guest User) profile"
+                    is_required: True
+
+    customer_org_full:
+        description: Installs Grants Management and deploys are recommended unpackaged metadata and configuration.
+        steps:
+            1:
+                flow: customer_org
+            2:
+                flow: customer_enablement
+
+plans:
+    install:
+        slug: install
+        title: Install Grants Management
+        tier: secondary
+        is_listed: True
+        preflight_message: "This will install Grants Management into your org."
+        post_install_message: "Thanks for installing Grants Management. Please visit the [Grants Management customer group](https://trailhead.salesforce.com/trailblazer-community/groups/0F94S000000GvrgSAC) on the Trailblazer Community for any questions about Grants Management."
+        error_message: "To get help with this error, go to [help.salesforce.com](https://help.salesforce.com/), find the Support & Services area and log a technical support ticket with Salesforce. Include “Grants Management” in the subject line and include in your comment the installation link shown here."
+        checks:
+            - when: "'.my.' not in org_config.instance_url"
+              action: error
+              message: "Please enable My Domain in your org prior to installing."
+            - when: "'PID_Customer_Community_Plus_Login' not in tasks.get_available_licenses()"
+              action: error
+              message: "Grants Management requires Customer Community Plus Login licenses. Please coordinate with your Salesforce account executive to be sure you have the correct licenses set up in your org."
+            - when: "not tasks.check_chatter_enabled()"
+              action: error
+              message: "Grants Management requires Chatter. Please enable Chatter in your org and try again."
+        steps:
+            1:
+                flow: customer_org
+
+    customer_enablement_install:
+        slug: install-and-build-community
+        title: Install Grants Management and Build Community
+        tier: primary
+        is_listed: True
+        preflight_message: "This installs Grants Management into your org. The installer creates a Community with the Grantee Portal template and applies our recommended configurations."
+        post_install_message: "Thanks for installing Grants Management. Please visit the [Grants Management customer group](https://trailhead.salesforce.com/trailblazer-community/groups/0F94S000000GvrgSAC) on the Trailblazer Community for any questions about Grants Management."
+        error_message: "To get help with this error, go to [help.salesforce.com](https://help.salesforce.com/), find the Support & Services area and log a technical support ticket with Salesforce. Include “Grants Management” in the subject line and include in your comment the installation link shown here."
+        checks:
+            - when: "'.my.' not in org_config.instance_url"
+              action: error
+              message: "Please enable My Domain in your org prior to installing."
+            - when: "'PID_Customer_Community_Plus_Login' not in tasks.get_available_licenses()"
+              action: error
+              message: "Grants Management requires Customer Community Plus Login licenses. Please coordinate with your Salesforce account executive to be sure you have the correct licenses set up in your org."
+            - when: "'Network' not in tasks.check_sobjects_available()"
+              action: error
+              message: "Please ensure that Salesforce Communities is available in your org prior to installing."
+            - when: "not tasks.check_chatter_enabled()"
+              action: error
+              message: "Grants Management requires Chatter. Please enable Chatter in your org and try again."
+        steps:
+            1:
+                flow: customer_org_full
+
+    upgrade:
+        slug: upgrade
+        title: Product Upgrade
+        tier: additional
+        is_listed: False
+        preflight_message: "This installer upgrades this package and any required dependencies to the latest version in your org. This installer isn't supported and has risks. Please don't run this installer unless you're aware of its specific use cases and considerations."
+        post_install_message: "Installation complete and package is on the latest version."
+        steps:
+            1:
+                task: update_dependencies
+                options:
+                    security_type: PUSH
+                    packages_only: True
+            2:
+                task: install_managed
+                options:
+                    security_type: PUSH
+
+    unpackaged_flows:
+        slug: unpackaged-flows
+        title: Install Grants Management Flows
+        tier: additional
+        is_listed: True
+        preflight_message: "Install or overwrite the selected unpackaged Grants Management flows in your org. After installation, you can access and activate earlier versions of previously-installed flows as needed. Be sure to create a backup of any changes before proceeding."
+        post_install_message: "Thanks for installing Grants Management flows. Please visit the [Grants Management customer group](https://trailhead.salesforce.com/trailblazer-community/groups/0F94S000000GvrgSAC) on the Trailblazer Community for any questions about Grants Management."
+        error_message: "To get help with this error, go to [help.salesforce.com](https://help.salesforce.com/), find the Support & Services area and log a technical support ticket with Salesforce. Include “Grants Management” in the subject line and include in your comment the installation link shown here."
+        checks:
+            - when: "not org_config.has_minimum_package_version('sfdo_grants', '1.17')"
+              action: error
+              message: "Grants Management version 1.17 is the minimum version required to install Grants Management flows. Please install or upgrade Grants Management and try again."
+        steps:
+            1:
+                task: deploy_multi_stage_app_flow
+                ui_options:
+                    name: "Deploy Grants Management: Multi-Section Application Form (Sample) and subflow"
+                    is_required: False
+                    is_recommended: False
+            2:
+                task: deploy_enhanced_application_flow
+                ui_options:
+                    name: "Deploy Enhanced Application (Sample) Flow"
+                    is_required: False
+                    is_recommended: False
+            3:
+                task: deploy_funding_program_application_flow
+                ui_options:
+                    name: "Deploy Create Application Flow"
+                    is_required: False
+                    is_recommended: False
+            4:
+                task: deploy_submit_application_flow
+                ui_options:
+                    name: "Deploy Submit Application Flow"
+                    is_required: False
+                    is_recommended: False
+            5:
+                task: deploy_validate_ein_flow
+                ui_options:
+                    name: "Deploy Grants Management: Validate EIN (Sample) Flow"
+                    is_required: False
+                    is_recommended: False
