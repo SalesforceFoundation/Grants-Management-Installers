@@ -9,139 +9,80 @@ project:
     dependencies:
         - github: https://github.com/SalesforceFoundation/sfdo-base
         - github: https://github.com/SalesforceFoundation/OutboundFunds
-    dependency_resolutions:
-        preproduction: commit_status
     git:
         repo_url: https://github.com/SalesforceFoundation/Grants-Management
         prefix_beta: beta/
         prefix_release: release/
         default_branch: main
-    test:
-        name_match: "%\\_TEST,%\\_FTEST,Stub,%Test"
-
-sources:
-    outbound_funds:
-        github: https://github.com/SalesforceFoundation/OutboundFunds
-
-orgs:
-    scratch:
-        dev_namespaced:
-            config_file: orgs/dev.json
-            days: 7
-            namespaced: True
-        dev_without_personaccounts:
-            config_file: orgs/dev_without_personaccounts.json
-            days: 7
-        prerelease:
-            config_file: orgs/prerelease.json
-        feature_opt:
-            config_file: orgs/feature_opt.json
-        beta_prerelease:
-            config_file: orgs/beta_prerelease.json
-        beta_platformencryption:
-            config_file: orgs/beta_platformencryption.json
-        beta_personaccounts:
-            config_file: orgs/beta_personaccounts.json
-        beta_personaccounts_multipleaccounts:
-            config_file: orgs/beta_personaccounts_multipleaccounts.json
-        no_gms_psl:
-            config_file: orgs/no_gms_psl.json
-        2gp:
-            config_file: orgs/2gp.json
-            days: 7
-        no_psls:
-            config_file: orgs/no_psls.json
-        ict:
-            config_file: in-context-testing/orgs/ict.json
-            days: 30
 
 tasks:
-    robot:
-        options:
-            suites: robot/Grants-Management/tests
-            options:
-                outputdir: robot/Grants-Management/results
-
-    robot_testdoc:
-        options:
-            path: robot/Grants-Management/tests
-            output: robot/Grants-Management/doc/Grants-Management_tests.html
-
-    robot_libdoc:
-        options:
-            path: robot/Grants-Management/resources/Grants.py,robot/Grants-Management/resources/Grants.robot,robot/Grants-Management/resources/*PageObject.py
-            output: robot/Grants-Management/doc/Keywords.html
-
-    # Unpackaged flows
+    # Flows
     deploy_multi_stage_app_flow:
-        group: "SFDO-Grants: Unpackaged Flows"
+        group: "Grants Management: Flows"
         description: Deploys multi_stage_app_flow flows.
         class_path: cumulusci.tasks.salesforce.Deploy
         options:
             path: unpackaged/post/multi_stage_app_flow
 
     deploy_enhanced_application_flow:
-        group: "SFDO-Grants: Unpackaged Flows"
+        group: "Grants Management: Flows"
         description: Deploys enhanced_application flow.
         class_path: cumulusci.tasks.salesforce.Deploy
         options:
             path: unpackaged/post/enhanced_application
 
     deploy_funding_program_application_flow:
-        group: "SFDO-Grants: Unpackaged Flows"
+        group: "Grants Management: Flows"
         description: Deploys funding_program_application_flow flow.
         class_path: cumulusci.tasks.salesforce.Deploy
         options:
             path: unpackaged/post/funding_program_application_flow
 
     deploy_submit_application_flow:
-        group: "SFDO-Grants: Unpackaged Flows"
+        group: "Grants Management: Flows"
         description: Deploys submit_application flow.
         class_path: cumulusci.tasks.salesforce.Deploy
         options:
             path: unpackaged/post/submit_application
 
     deploy_validate_ein_flow:
-        group: "SFDO-Grants: Unpackaged Flows"
+        group: "Grants Management: Flows"
         description: Deploys validate_ein_flow flow.
         class_path: cumulusci.tasks.salesforce.Deploy
         options:
             path: unpackaged/post/validate_ein_flow
 
-    # Customer enablement tasks:
-    # - These tasks are intended to be exposed to customers.
-    # - All tasks here should be configured for managed context by default.
-
+    # Experience Site
     deploy_network_branding:
-        group: "SFDO-Grants: Customer enablement"
+        group: "Grants Management: Experience Site"
         description: Deploys the NetworkBranding files for the Funding Program Portal.   Must be deployed after creating the "Funding Program Portal" Community.
         class_path: cumulusci.tasks.salesforce.Deploy
         options:
             path: unpackaged/customer_enablement/network_branding
 
     deploy_grantseeker_sharing_set:
-        group: "SFDO-Grants: Customer enablement"
+        group: "Grants Management: Experience Site"
         description: Deploys the "Grantseeker" Sharing Set for community users.   Must be deployed after deploying the "Grantseeker Plus Login" Profile.
         class_path: cumulusci.tasks.salesforce.Deploy
         options:
             path: unpackaged/customer_enablement/grantseeker_sharing_set
 
     deploy_guest_user_profile:
-        group: "SFDO-Grants: Customer enablement"
+        group: "Grants Management: Experience Site"
         description: Deploys the "Funding Program Portal Profile" profile for guest users.   Must be deployed after deploying the Funding Program Portal community.
         class_path: cumulusci.tasks.salesforce.Deploy
         options:
             path: unpackaged/customer_enablement/guest_user_profile
 
     deploy_navigation_menu:
-        group: "SFDO-Grants: Customer enablement"
+        group: "Grants Management: Experience Site"
         class_path: cumulusci.tasks.salesforce.Deploy
         description: Deploys the "Funding Program Portal Navigation" Navigation Menu for the "Funding Program Portal" Community/Network.   Must be deployed after creating the "Funding Program Portal" Community.
         options:
             path: unpackaged/customer_enablement/navigation_menu
 
     create_grantseeker_community:
-        group: "SFDO-Grants: Customer enablement"
+        group: "Grants Management: Experience Site"
         description: "Creates a community with the 'Grants' template"
         class_path: cumulusci.tasks.salesforce.CreateCommunity
         options:
@@ -151,14 +92,24 @@ tasks:
             timeout: 60000
 
     publish_grantseeker_community:
-        group: "SFDO-Grants: Customer enablement"
+        group: "Grants Management: Experience Site"
         description: Publishes the "Funding Program Portal" Community in the target org using the Connect API
         class_path: cumulusci.tasks.salesforce.PublishCommunity
         options:
             name: Funding Program Portal
 
+    add_network_members:
+        group: "Grants Management: Experience Site"
+        description: "Create a NetworkMemberGroup record for the community user profile"
+        class_path: cumulusci.tasks.salesforce.network_member_group.CreateNetworkMemberGroups
+        options:
+            network_name: Funding Program Portal
+            profile_names:
+                - Grantseeker Plus Login
+
+    # Verification checks
     create_verificationitem_document_type:
-        group: "SFDO-Grants: Customer enablement"
+        group: "Grants Management: Verification checks"
         description: "Creates the 'Verification Item' Document Type for the due diligence process"
         class_path: cumulusci.tasks.salesforce.insert_record.InsertRecord
         options:
@@ -171,7 +122,7 @@ tasks:
                 isActive: True
 
     create_taxstatussearch_document_type:
-        group: "SFDO-Grants: Customer enablement"
+        group: "Grants Management: Verification checks"
         description: "Creates the 'Tax Status Search' Document Type for the due diligence verification process."
         class_path: cumulusci.tasks.salesforce.insert_record.InsertRecord
         options:
@@ -183,518 +134,11 @@ tasks:
                 Description: Identifies the Document Checklist Item is for a tax status search Verification Check.
                 isActive: True
 
-    add_network_members:
-        group: "SFDO-Grants: Customer enablement"
-        description: "Create a NetworkMemberGroup record for the community user profile"
-        class_path: cumulusci.tasks.salesforce.network_member_group.CreateNetworkMemberGroups
-        options:
-            network_name: Funding Program Portal
-            profile_names:
-                - Grantseeker Plus Login
-
-    # Packaging tasks
-    deploy_packaged_metadata_not_included_in_2GP:
-        group: "SFDO-Grants: Packaging"
-        description: "Deploys packaged metadata that is not included in 2GP builds.  Some metadata is not supported in 2GPs: Workflows related to custom objects belonging to another package."
-        class_path: cumulusci.tasks.salesforce.Deploy
-        options:
-            path: packaged_not_2gp
-
-    publish_to_Grants-Management-Installers:
-        group: "SFDO-Grants: Packaging"
-        class_path: cumulusci.tasks.github.publish.PublishSubtree
-        description: Publishes files needed to install Grants Management to the public Grants-Management-Installers repository
-        options:
-            repo_url: https://github.com/SalesforceFoundation/Grants-Management-Installers.git
-            ref: refs/heads/feature/grants-management-installers
-            branch: feature/grants-management-installers
-            include:
-                - Grants-Management-Installers/CODE_OF_CONDUCT.md
-                - Grants-Management-Installers/cumulusci.yml
-                - Grants-Management-Installers/LICENSE.header.txt
-                - Grants-Management-Installers/LICENSE.txt
-                - Grants-Management-Installers/SECURITY.md
-            renames:
-                - local: Grants-Management-Installers/CODE_OF_CONDUCT.md
-                  target: CODE_OF_CONDUCT.md
-                - local: Grants-Management-Installers/cumulusci.yml
-                  target: cumulusci.yml
-                - local: Grants-Management-Installers/LICENSE.header.txt
-                  target: LICENSE.header.txt
-                - local: Grants-Management-Installers/LICENSE.txt
-                  target: LICENSE.txt
-                - local: Grants-Management-Installers/SECURITY.md
-                  target: SECURITY.md
-            dry_run: True
-
-    # Shield Platform Encryption enablement and configuration tasks
-    platformencryption_deploy_permset:
-        group: "SFDO-Grants: Shield Platform Encryption"
-        description: Deploys the "Encryption" Permission Set which allows managing Shield Platform Encryption keys.
-        class_path: cumulusci.tasks.salesforce.create_permission_sets.CreatePermissionSet
-        options:
-            user_permissions:
-                - PermissionsManageEncryptionKeys
-            api_name: Encryption
-
-    platformencryption_create_tenant_secret:
-        group: "SFDO-Grants: Shield Platform Encryption"
-        description: Create a placeholder Tenant Secret encryption key to use Shield Platform Encryption.
-        class_path: cumulusci.tasks.sfdx.SFDXOrgTask
-        options:
-            command: 'force:data:record:create -s TenantSecret -v "Description=test"'
-
-    platformencryption_deploy_field_configuration:
-        group: "SFDO-Grants: Shield Platform Encryption"
-        description: Encrypts fields with Shield Platform Encryption.
-        class_path: cumulusci.tasks.salesforce.Deploy
-        options:
-            path: unpackaged/config/platformencryption_fields
-
-    # Internal configuration and storytelling data tasks
-    update_admin_profile:
-        options:
-            package_xml: lib/admin_profile.xml
-            include_packaged_objects: true
-
-    dev_deactivate_all_duplicate_rules:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: For dev environments, deactivates all duplicate rules before loading storytelling data.
-        class_path: cumulusci.tasks.metadata_etl.SetDuplicateRuleStatus
-        options:
-            api_names: "*"
-            active: False
-
-    dev_deploy_extra_profiles_permsets_roles:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Deploys extra Profiles, PermissionSets, PermissionSetGroups, sharing rules, and UserRoles to create community users with for storytelling data.
-        class_path: cumulusci.tasks.salesforce.Deploy
-        options:
-            path: dev/unpackaged/extra_profiles_permsets_roles
-
-    dev_deploy_admin_layouts:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Deploys customizations for packaged layouts for the Admin profile.
-        class_path: cumulusci.tasks.salesforce.Deploy
-        options:
-            path: dev/unpackaged/admin_layouts
-
-    dev_deploy_internal_user_config:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Deploys customizations to assist use of our Internal Grants Users - including listviews and sharing rules.
-        class_path: cumulusci.tasks.salesforce.Deploy
-        options:
-            path: dev/unpackaged/internal_user_config
-
-    dev_deploy_review_layout_with_config_json:
-        group: "SFDO-Grants: Internal review layout with configuration json field"
-        description: Deploys a custom page layout for the Review object for the Admin profile.
-        class_path: cumulusci.tasks.salesforce.Deploy
-        options:
-            path: dev/unpackaged/review_layout_with_config_json
-
-    dev_deploy_duplicate_rules:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Deploys duplicate rules for storytelling data.
-        class_path: cumulusci.tasks.salesforce.Deploy
-        options:
-            path: dev/unpackaged/duplicate_rules
-
-    dev_deploy_person_accounts_customizations:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Deploys customizations for person accounts for the Admin profile.
-        class_path: cumulusci.tasks.salesforce.Deploy
-        options:
-            path: dev/unpackaged/person_accounts
-
-    dev_sort_app_menu:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Orders the App Menu so Grants Management and Outbound Funds are on top.
-        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
-        options:
-            path: dev/scripts/sort_app_menu.apex
-
-    dev_lock_down_OWDs:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Recommended organization-wide default (OWD) sharing configuration/
-        class_path: cumulusci.tasks.metadata_etl.SetOrgWideDefaults
-        options:
-            org_wide_defaults:
-                - api_name: Account
-                  internal_sharing_model: Private
-                  external_sharing_model: Private
-                # Opportunity must have a sharing model <= Account's sharing model
-                - api_name: Opportunity
-                  internal_sharing_model: Private
-                  external_sharing_model: Private
-                # Case must have a sharing model <= Account's sharing model
-                - api_name: Case
-                  internal_sharing_model: Private
-                  external_sharing_model: Private
-                # We need User external sharing as "Public Read Only" so Community
-                # Users can change the Owner of Funding Request records to the
-                # internal User who owns their Account record during the
-                # "GrantsManagementSubmitApplication" unpackaged flow.
-                # Also, External User sharing "Public Read Only" is currently
-                # the only workaround to @mention internal Users in chatter.
-                # https://help.salesforce.com/articleView?id=000312503&language=en_US&type=1&mode=1
-                - api_name: User
-                  internal_sharing_model: Read
-                  external_sharing_model: Read
-                - api_name: outfunds__Funding_Program__c
-                  internal_sharing_model: Private
-                  external_sharing_model: Private
-                - api_name: outfunds__Funding_Request__c
-                  internal_sharing_model: Private
-                  external_sharing_model: Private
-                - api_name: outfunds__Requirement__c
-                  internal_sharing_model: Private
-                  external_sharing_model: Private
-                - api_name: outfunds__Review__c
-                  internal_sharing_model: Private
-                  external_sharing_model: Private
-                - api_name: "%%%NAMESPACE%%%VerificationCheck__c"
-                  internal_sharing_model: Private
-                  external_sharing_model: Private
-
-    dev_share_funding_programs_to_community_users:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Creates "Read" shares to all Funding Programs with a Funding Request to all Community Users.
-        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
-        options:
-            path: dev/scripts/insert_read_shares_for_funding_programs_with_requests.apex
-
-    dev_create_community_users:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: "Create a new community user based on the story telling data"
-        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
-        options:
-            path: dev/scripts/create_community_users.apex
-
-    dev_create_internal_user:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: "Create a an Internal Grants user based on the story telling data"
-        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
-        options:
-            path: dev/scripts/create_internal_users.apex
-
-    dev_assign_admin_permission_set_licenses:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: "Assigns the Grants Management PSL to the default scratch org user.  This is only needed for non-namespaced scratch org."
-        class_path: cumulusci.tasks.salesforce.users.permsets.AssignPermissionSetLicenses
-        options:
-            api_names:
-                - Salesforce_org_GrantsManagementPsl
-                - ActionPlansPsl
-                - DocumentChecklistPsl
-
-    dev_assign_grants_permission_sets:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: "Assigns the Grants Management PSL to the default scratch org user.  This is only needed for non-namespaced scratch org."
-        class_path: cumulusci.tasks.salesforce.users.permsets.AssignPermissionSets
-        options:
-            api_names:
-                # Grants Management Permission Sets
-                - ManageGrants
-                - GrantsManagementBaseAccess
-                - InvitationWizard
-                - DocumentChecklist
-                - VerificationManage
-                - ActionPlans
-                - ReviewWorkspaceConfigureWorkspace
-
-    dev_assign_michon_permission_set_group:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: "Assigns the PersonaProgramOfficer Permissionset Group to the internal grants user Michon Levitt."
-        class_path: cumulusci.tasks.salesforce.users.permsets.AssignPermissionSetGroups
-        options:
-            api_names:
-                - PersonaProgramOfficer
-            user_alias: michon
-
-    dev_assign_michon_permission_sets:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: "Assigns specific permission sets to the Internal Grants User, Michon."
-        class_path: cumulusci.tasks.salesforce.users.permsets.AssignPermissionSets
-        options:
-            api_names:
-                - VerificationManage
-                - ReviewWorkspaceEvaluateFundingRequest
-            user_alias: michon
-
-    dev_assign_michon_permission_set_licenses:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: "Assigns the Grants Management PSL to the Internal Grants User Michon Levitt.  This is only needed for non-namespaced scratch org."
-        class_path: cumulusci.tasks.salesforce.users.permsets.AssignPermissionSetLicenses
-        options:
-            api_names:
-                - Salesforce_org_GrantsManagementPsl
-                - ActionPlansPsl
-                - DocumentChecklistPsl
-            user_alias: michon
-
-    dev_assign_dependency_permission_sets:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: "Assigns the permission sets which internal config depends upon to the default scratch org user."
-        class_path: cumulusci.tasks.salesforce.users.permsets.AssignPermissionSets
-        options:
-            api_names:
-                # Automatically assigns Document Checklist Items PSL
-                - DocumentChecklist
-                # Automatically assigns Action Plans PSL
-                - ActionPlans
-
-    dev_assign_community_user_to_requirements:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: "Assign community users to Requirement records."
-        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
-        options:
-            path: dev/scripts/assign_community_user_to_requirements.apex
-
-    dev_assign_in_progress_funding_requests_to_community_user:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: "Assign the Applying Contact's Community User as the owner of 'In progress' Funding Request records."
-        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
-        options:
-            path: dev/scripts/assign_in_progress_funding_requests_to_community_user.apex
-
-    dev_assign_review_to_internal_user:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: "Assign an internal user to Funding Request Review records."
-        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
-        options:
-            path: dev/scripts/assign_user_to_reviews.apex
-
-    dev_assign_requirement_compact_layout:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: "Assigns Requirement's Compact Layout as the value option."
-        class_path: cumulusci.tasks.metadata_etl.UpdateMetadataFirstChildTextTask
-        options:
-            metadata_type: CustomObject
-            tag: compactLayoutAssignment
-            api_names: outfunds__Requirement__c
-            value: "%%%NAMESPACE%%%Requirement_Compact_Layout"
-
-    dev_disable_gms_licensing:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: "Disables licensing for development scratch orgs to prevent issues with the PSL."
-        class_path: cumulusci.tasks.metadata_etl.UpdateMetadataFirstChildTextTask
-        options:
-            metadata_type: CustomObject
-            tag: enableLicensing
-            value: "false"
-            api_names:
-                - "%%%NAMESPACE%%%VerificationCheck__c"
-
-    dev_inject_validate_ein_quick_action_into_account_layout:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Adds Validate EIN Quick Action button to the end of the button list on the Grants Management Account Layout.
-        class_path: tasks.layouts.InsertRecordPlatformActionListItem
-        options:
-            api_names: "Account-%%%NAMESPACE%%%Grants Management Account Layout"
-            action_name: "Account.ValidateEIN"
-            action_type: QuickAction
-
-    # Internal data management
-    dev_obfuscate_all_community_and_internal_users:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Obfuscates (and deactivates) all Community and Internal Users.   Allows related Contact records to be deleted.  User Management Settings "Scramble Specific Users’ Data" needs to be enabled.
-        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
-        options:
-            path: dev/scripts/obfuscate_all_community_and_internal_users.apex
-
-    dev_deactivate_action_plan_templates:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: "Denotes any deactivated ActionPlanTemplates as 'Deactivated' that have Obsolete ActionPlanTemplateVersions. Helps make it clear which Storytelling ActionPlanTemplates are current "
-        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
-        options:
-            path: dev/scripts/deactivate_action_plan_templates.apex
-
-    dev_delete_storytelling_data:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Deletes all storytelling data.  Call dev_obfuscate_all_community_and_internal_users task before calling this task.  Community Users need to be obfuscated before their corresponding Contact records can be deleted.
-        class_path: cumulusci.tasks.bulkdata.DeleteData
-        options:
-            objects:
-                - outfunds__Disbursement__c
-                - outfunds__Requirement__c
-                - outfunds__Funding_Request_Role__c
-                - outfunds__Review__c
-                - outfunds__Funding_Request__c
-                - outfunds__Funding_Program__c
-                - DocumentType
-                - VerificationCheck__c
-                - ActionPlan
-                - DocumentChecklistItem
-                - ActionPlanItem
-                - Account
-                - Contact
-
-    dev_deploy_application_flows:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: "Deploy Create Scholarship Application and View Mode Application flows for development and testing."
-        class_path: cumulusci.tasks.salesforce.Deploy
-        options:
-            path: dev/unpackaged/application_flows
-
-    dev_retrieve_application_flows:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: "Simple task to retrieve the unpackaged flow metadata for dev/unpackaged/application_flows - BE SURE TO RE-ADD NAMESPACE TOKEN: %%%NAMESPACE_OR_C%%%"
-        class_path: cumulusci.tasks.salesforce.RetrieveUnpackaged
-        options:
-            path: dev/unpackaged/application_flows
-            package_xml: dev/unpackaged/application_flows/package.xml
-
-    dev_add_picklist_values_to_funding_program_application_form:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Add new values GrantsManagementCreateScholarshipApplication and GrantsManagementFundingRequestViewModeSample to funding program's application form picklist
-        class_path: cumulusci.tasks.metadata_etl.picklists.AddPicklistEntries
-        options:
-            picklists: "outfunds__Funding_Program__c.%%%NAMESPACE%%%ApplicationForm__c"
-            entries:
-                - fullName: "GrantsManagementCreateScholarshipApplication"
-                  label: "Create Application For Scholarship"
-                - fullName: "GrantsManagementFundingRequestViewModeSample"
-                  label: "Grants Management: Funding Request View Mode (Sample)"
-
-    dev_add_tax_status_quick_action:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Deploys an example flow and quick action using Tax Status Search LWC.
-        class_path: cumulusci.tasks.salesforce.Deploy
-        options:
-            path: dev/unpackaged/validate_ein_quick_action
-
-    dev_set_theme_layout_navigation_menu_and_publish:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Replaces the Navigation Menu in the community for all pages using the Grants Community theme
-        class_path: dev.tasks.communities.ReplaceThemeLayoutNavigationMenuTask
-        options:
-            network_name: Funding Program Portal
-            navigation_menu: FundingProgramPortalNavigation
-
-    dev_delete_person_account_records:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Deletes all records related to and including person account records.   Make sure to first call the "dev_obfuscate_all_community_and_internal_users" task to obfuscates (and deactivate) all Community Users so this task can delete person account Contact records.
-        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
-        options:
-            path: dev/scripts/delete_person_account_records.apex
-
-    dev_extract_dataset_with_person_accounts:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Extracts dataset with person account records.
-        class_path: cumulusci.tasks.bulkdata.ExtractData
-        options:
-            mapping: dev/datasets/with_person_accounts/mapping.yml
-            sql_path: dev/datasets/with_person_accounts/data.sql
-
-    dev_load_dataset_with_person_accounts:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Loads dataset with person account records.
-        class_path: cumulusci.tasks.bulkdata.LoadData
-        options:
-            mapping: dev/datasets/with_person_accounts/mapping.yml
-            sql_path: dev/datasets/with_person_accounts/data.sql
-            # dev_extract_storytelling_data flow will try to create duplicate DocumentType records causing errors.
-            ignore_row_errors: True
-
-    dev_extract_dataset_without_person_accounts:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Extracts dataset without person account records.
-        class_path: cumulusci.tasks.bulkdata.ExtractData
-        options:
-            mapping: dev/datasets/without_person_accounts/mapping.yml
-            sql_path: dev/datasets/without_person_accounts/data.sql
-
-    dev_load_dataset_without_person_accounts:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Loads dataset without person account records.
-        class_path: cumulusci.tasks.bulkdata.LoadData
-        options:
-            mapping: dev/datasets/without_person_accounts/mapping.yml
-            sql_path: dev/datasets/without_person_accounts/data.sql
-            # dev_extract_storytelling_data flow will try to create duplicate DocumentType records causing errors.
-            ignore_row_errors: True
-
-    dev_upload_profile_photo_michon:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Uploads a profile photo for Michon Levitt (internal Grants user).
-        class_path: cumulusci.tasks.salesforce.users.photos.UploadProfilePhoto
-        options:
-            photo: dev/photos/MichonLevitt.png
-            where: Alias = 'michon' AND isActive = true
-
-    dev_upload_profile_photo_grace:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Uploads a profile photo for (business account) grantseeker Grace Walker.
-        class_path: cumulusci.tasks.salesforce.users.photos.UploadProfilePhoto
-        options:
-            photo: dev/photos/GraceWalker.png
-            where: Alias = 'grace' AND isActive = true
-
-    dev_upload_profile_photo_aileen:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Uploads a profile photo for grantmaker and default user Aileen.
-        class_path: cumulusci.tasks.salesforce.users.photos.UploadProfilePhoto
-        options:
-            photo: dev/photos/AileenDavis.png
-
-    dev_update_invite_email_template_community_url:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: "Updates the communityBaseUrl apex:variable in the Applicant Invitation email template with the Network URL for the Funding Program Portal."
-        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
-        options:
-            path: dev/scripts/update_email_template_markup_with_community_url.apex
-            # Email Template DeveloperName
-            param1: Applicant_Invitation_Email
-            # Network Name
-            param2: Funding Program Portal
-
-    dev_deploy_verification_storytelling_data_generator:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Deploys temporary Apex Class to generate Verification storytelling data.
-        class_path: cumulusci.tasks.salesforce.Deploy
-        options:
-            path: dev/unpackaged/verification_storytelling_data_generator/deploy
-
-    dev_insert_verification_storytelling_data:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Inserts verification storytelling data with temporary Apex Class.
-        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
-        options:
-            path: dev/unpackaged/verification_storytelling_data_generator/scripts/insert_data.apex
-
-    dev_remove_verification_storytelling_data_generator:
-        group: "SFDO-Grants: Internal config and storytelling"
-        description: Deploys temporary Apex Class to generate Verification storytelling data.
-        class_path: cumulusci.tasks.salesforce.Deploy
-        options:
-            path: dev/unpackaged/verification_storytelling_data_generator/remove
-
-    # Internal development automation
-    dev_export_grants_community_template:
-        group: "SFDO-Grants: Internal dev automation"
-        description: 'Exports specified temporary Community Template metadata. Change the options to export changes you are interested in. Remember, the temporary Community Template API Name must start with "template_name" option, and the "suffix" is everything after the "template_name" option in temporary Community Template API Name.'
-        class_path: dev.tasks.community_templates.ExportCommunityTemplateTask
-        options:
-            template_name: Grants
-            suffix: "2"
-            export_template: False
-            export_theme: False
-            export_branding_set: False
-            export_flexipages: False
-            copy_temporary_metadata: False
-
-    run_tests:
-        options:
-            retry_failures:
-                - "unable to obtain exclusive access to this record"
-                - "UNABLE_TO_LOCK_ROW"
-            retry_always: True
-            required_org_code_coverage_percent: "100"
-
+    # Installation pre-flight checks
     check_sharing_set_owds:
+        group: "Grants Management: Preflight Checks"
+        description: "Checks if the External Organization Wide Defaults (OWDs) for Funding request and Requirement are Private."
         class_path: cumulusci.tasks.preflight.sobjects.CheckSObjectOWDs
-        group: "Preflight Checks"
         options:
             org_wide_defaults:
                 - api_name: outfunds__Funding_Request__c
@@ -702,82 +146,7 @@ tasks:
                 - api_name: outfunds__Requirement__c
                   external_sharing_model: Private
 
-    uninstall_packaged_incremental:
-        options:
-            ignore:
-                WorkflowAlert:
-                    - outfunds__Funding_Request__c.Submit_Application_Confirmation
-                    - outfunds__Requirement__c.Submit_Requirement_Confirmation
-            ignore_types:
-                - RecordType
-                - ContentAsset
-                - CustomObjectTranslation
-
-    munge_unpackaged_flow_2gp:
-        description: Removes namespace token from references in unpackaged/post/submit_application to metadata in packaged_not_2gp.
-        class_path: cumulusci.tasks.util.FindReplace
-        options:
-            find: "outfunds__Funding_Request__c.%%%NAMESPACE%%%Submit_Application_Confirmation"
-            replace: "outfunds__Funding_Request__c.Submit_Application_Confirmation"
-            path: unpackaged/post/submit_application
-
-    unmunge_unpackaged_flow_2gp:
-        description: Re-applies namespace token from references in unpackaged/post/submit_application to metadata in packaged_not_2gp.  This can be called in any flow without unwanted changes to unpackaged/post/submit_application.
-        class_path: cumulusci.tasks.util.FindReplace
-        options:
-            find: "outfunds__Funding_Request__c.Submit_Application_Confirmation"
-            replace: "outfunds__Funding_Request__c.%%%NAMESPACE%%%Submit_Application_Confirmation"
-            path: unpackaged/post/submit_application
-
-    github_automerge_feature:
-        options:
-            update_future_releases: True
-
-    qa_create_community_users:
-        group: "SFDO-Grants: Internal config and storytelling for QA orgs"
-        description: "Create a new community user based on the story telling data"
-        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
-        options:
-            path: robot/Grants-Management/scripts/create_community_users.apex
-
-    qa_load_dataset_with_person_accounts:
-        group: "SFDO-Grants: Internal config and storytelling for QA org"
-        description: Loads dataset with person account records.
-        class_path: cumulusci.tasks.bulkdata.LoadData
-        options:
-            mapping: robot/Grants-Management/datasets/with_person_accounts/mapping.yml
-            sql_path: robot/Grants-Management/datasets/with_person_accounts/data.sql
-            # qa_extract_storytelling_data flow will try to create duplicate DocumentType records causing errors.
-            ignore_row_errors: True
-
-    qa_load_dataset_without_person_accounts:
-        group: "SFDO-Grants: Internal config and storytelling for QA org"
-        description: Loads dataset without person account records.
-        class_path: cumulusci.tasks.bulkdata.LoadData
-        options:
-            mapping: robot/Grants-Management/datasets/without_person_accounts/mapping.yml
-            sql_path: robot/Grants-Management/datasets/without_person_accounts/data.sql
-            # qa_extract_storytelling_data flow will try to create duplicate DocumentType records causing errors.
-            ignore_row_errors: True
-
-    inject_spc_key:
-        description: Injects production SPC API key.
-        class_path: cumulusci.tasks.util.FindReplace
-        options:
-            find: "%%%SPC_KEY%%%"
-            replace: "SPC_KEY"
-            env_replace: True
-            path: force-app/main/default/customMetadata
-
-    inject_spc_endpoint:
-        description: Injects production SPC API endpoint.
-        class_path: cumulusci.tasks.util.FindReplace
-        options:
-            find: "%%%SPC_ENDPOINT%%%"
-            replace: "SPC_ENDPOINT"
-            env_replace: True
-            path: force-app/main/default/customMetadata
-
+    # Install packages to Admin profile only.
     install_managed:
         options:
             security_type: NONE
@@ -786,441 +155,9 @@ tasks:
         options:
             security_type: NONE
 
-    # In Context Testing (ICT) tasks
-    ict_review_validation_rules:
-        group: "GMS: In Context Testing (ICT)"
-        description: Deploys Validation Rules for the Review object to help test the Review Workspace.
-        class_path: cumulusci.tasks.salesforce.Deploy
-        options:
-            path: in-context-testing/unpackaged/ict_review_validation_rules
-
-    ict_admin_has_full_login_ip_address_range:
-        group: "GMS: In Context Testing (ICT)"
-        description: Updates the Admin profiles Login IP Address Ranges to support all IP Addresses (0.0.0.0 to 255.255.255.255) to prevent ICT testers from needing a verification code to log into ICT orgs.
-        class_path: cumulusci.tasks.salesforce.Deploy
-        options:
-            path: in-context-testing/unpackaged/admin_has_full_login_ip_address_range
-
-    ict_set_default_user_language_and_locale:
-        group: "GMS: In Context Testing (ICT)"
-        description: "Updates the org's default user's language and locale. param1 is set as the User.LanguageLocaleKey. param2 is set as the User.LocaleSidKey."
-        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
-        options:
-            path: in-context-testing/scripts/apex/set_language_on_admin_user.apex
-            # LanguageLocaleKey
-            param1: en_US
-            # LocaleSidKey
-            param2: en_US
-
-    ict_create_all_orgs:
-        group: "GMS: In Context Testing (ICT)"
-        description: "Executes a command to create all In Context Testing (ICT) orgs."
-        class_path: cumulusci.tasks.command.Command
-        options:
-            command: bash in-context-testing/create_all_ict_orgs.bash
-
 flows:
-    dev_org_with_latest_ofm:
-        description: For developing in an unmanaged Grants scratch org with the latest 2gp feature branch of OFM
-        steps:
-            1:
-                flow: dependencies
-                options:
-                    update_dependencies:
-                        resolution_strategy: commit_status
-            2:
-                flow: deploy_unmanaged
-            3:
-                flow: config_dev
-            4:
-                task: snapshot_changes
-
-    dependencies:
-        steps:
-            3:
-                task: dev_assign_dependency_permission_sets
-
-    dev_extract_storytelling_data:
-        description: ALWAYS use this flow to extract storytelling data.
-        steps:
-            1:
-                task: dev_extract_dataset_with_person_accounts
-            2:
-                task: dev_obfuscate_all_community_and_internal_users
-            3:
-                task: dev_deactivate_action_plan_templates
-            4:
-                task: dev_delete_person_account_records
-            5:
-                task: dev_extract_dataset_without_person_accounts
-            6:
-                task: dev_delete_storytelling_data
-            7:
-                flow: load_internal_storytelling_data
-
-    dev_delete_storytelling_data:
-        description: "Obfuscates & deactivates all Community and Internal Users, deactivates and renames ActionPlanTemplates, then deletes all storytelling data records."
-        steps:
-            1:
-                task: dev_obfuscate_all_community_and_internal_users
-            2:
-                task: dev_deactivate_action_plan_templates
-            3:
-                task: dev_delete_person_account_records
-            4:
-                task: dev_delete_storytelling_data
-
-    config_platformencryption:
-        description: Configures Shield Platform Encryption then encrypts fields.
-        steps:
-            1:
-                task: platformencryption_deploy_permset
-            2:
-                task: platformencryption_create_tenant_secret
-            3:
-                task: platformencryption_deploy_field_configuration
-
-    dev_insert_verification_storytelling_data:
-        steps:
-            1:
-                task: create_verificationitem_document_type
-                # when ready, this would move to customer enablement flow
-            2:
-                task: create_taxstatussearch_document_type
-                # when ready, this would move to customer enablement flow
-            3:
-                task: dev_deploy_verification_storytelling_data_generator
-                # Metadata API
-            4:
-                task: dev_insert_verification_storytelling_data
-                # Tooling API
-            5:
-                task: dev_remove_verification_storytelling_data_generator
-                # Metadata API
-
-    dev_create_internal_grants_user:
-        description: Creates an internal Grants user "Michon" with baseline profile and permissions needed.
-        steps:
-            # Generate a standard user "Michon Levitt" using the Internal Grants User profile.
-            # This allows switching out of Persona Permission Set Groups to test different permutations and setup of permissions
-            1:
-                task: dev_create_internal_user
-            # We assign the PersonaProgramOfficer
-            2:
-                task: dev_assign_michon_permission_set_licenses
-            3:
-                task: dev_assign_michon_permission_set_group
-            # This extra task is to facilitate any specific permission set assignment (not part of a group) testing
-            # Can be removed when/if persona based Permission Set Groups cover
-            4:
-                task: dev_assign_michon_permission_sets
-            5:
-                task: dev_upload_profile_photo_michon
-
-    dev_assign_admin_permissions:
-        description: Assigns the default scratch org user all of the necessary Permission Set Groups, Permission Sets, and Permission Set Licenses
-        steps:
-            1:
-                task: dev_assign_admin_permission_set_licenses
-            2:
-                task: dev_assign_grants_permission_sets
-
-    load_internal_storytelling_data:
-        description: Loads storytelling data for internal only orgs assumed to be called after the customer_enablement flow.  All tasks must be safe to deploy to a Government Cloud instance (e.g. only uses Metadata, Tooling, Bulk, or REST APIs).
-        steps:
-            1:
-                task: dev_deploy_extra_profiles_permsets_roles
-                # Metadata API: deploy
-            2:
-                flow: dev_assign_admin_permissions
-                # REST API
-            3:
-                task: dev_deploy_application_flows
-            4:
-                task: dev_add_picklist_values_to_funding_program_application_form
-            5:
-                # Creates network members for the extra profiles
-                task: add_network_members
-                options:
-                    profile_names:
-                        - "Grantseeker Plus"
-                        - "Grantseeker Login"
-                        - "Grantseeker"
-                # REST API
-            6:
-                task: dev_deactivate_all_duplicate_rules
-                # Metadata API: metadata_etl
-            7:
-                task: dev_load_dataset_with_person_accounts
-                when: org_config.is_person_accounts_enabled
-                # Bulk API
-            8:
-                task: dev_load_dataset_without_person_accounts
-                when: not org_config.is_person_accounts_enabled
-                # Bulk API
-            9:
-                flow: dev_insert_verification_storytelling_data
-                # Metadata API, Tooling API
-            10:
-                task: dev_create_community_users
-                # Tooling API: Apex Anonymous
-            11:
-                flow: dev_create_internal_grants_user
-            12:
-                task: dev_assign_community_user_to_requirements
-                # Tooling API: Apex Anonymous
-            13:
-                task: dev_assign_in_progress_funding_requests_to_community_user
-                # Tooling API: Apex Anonymous
-            14:
-                task: dev_share_funding_programs_to_community_users
-                # Tooling API: Apex Anonymous
-            16:
-                task: dev_upload_profile_photo_aileen
-                # REST API
-            17:
-                task: dev_upload_profile_photo_grace
-                # REST API
-            18:
-                task: dev_assign_review_to_internal_user
-                # Tooling API: Apex Anonymous
-
-    qa_load_internal_storytelling_data:
-        description: Loads storytelling data for internal only qa orgs assumed to be called after the customer_enablement flow.  All tasks must be safe to deploy to a Government Cloud instance (e.g. only uses Metadata, Tooling, Bulk, or REST APIs).
-        steps:
-            1:
-                task: dev_deploy_extra_profiles_permsets_roles
-                # Metadata API: deploy
-            2:
-                flow: dev_assign_admin_permissions
-                # REST API
-            3:
-                task: dev_deploy_application_flows
-            4:
-                task: dev_add_picklist_values_to_funding_program_application_form
-            5:
-                task: dev_deactivate_all_duplicate_rules
-                # Metadata API: metadata_etl
-            6:
-                task: qa_load_dataset_with_person_accounts
-                when: org_config.is_person_accounts_enabled
-                # Bulk API
-            7:
-                task: qa_load_dataset_without_person_accounts
-                when: not org_config.is_person_accounts_enabled
-                # Bulk API
-            8:
-                task: create_verificationitem_document_type
-                # when ready, this would move to customer enablement flow
-            9:
-                task: create_taxstatussearch_document_type
-                # when ready, this would move to customer enablement flow
-            10:
-                task: qa_create_community_users
-                # Tooling API: Apex Anonymous
-            11:
-                flow: dev_create_internal_grants_user
-            12:
-                task: dev_upload_profile_photo_aileen
-                # REST API
-
-    internal_config:
-        description: Configuration of our package for internal only orgs assumed to be called after the customer_enablement flow.  All tasks must be safe to deploy to a Government Cloud instance (e.g. only uses Metadata, Tooling, Bulk, or REST APIs).
-        steps:
-            1:
-                task: dev_deploy_admin_layouts
-                # Metadata API: deploy
-            2:
-                task: dev_deploy_internal_user_config
-                # Metadata API: deploy
-            3:
-                task: dev_deploy_review_layout_with_config_json
-                # Metadata API: deploy
-            4:
-                task: dev_deploy_duplicate_rules
-                # Metadata API: deploy
-            5:
-                task: dev_assign_requirement_compact_layout
-                # Metadata API: metadata_etl
-            6:
-                task: dev_deploy_person_accounts_customizations
-                when: org_config.is_person_accounts_enabled
-                # Metadata API
-            7:
-                task: dev_update_invite_email_template_community_url
-                # Tooling API
-            8:
-                task: dev_add_tax_status_quick_action
-                # Metadata API: deploy
-            9:
-                task: dev_inject_validate_ein_quick_action_into_account_layout
-                # Metadata API: metadata_etl
-            10:
-                task: ict_review_validation_rules
-                # Metadata API: deploy
-
-    deploy_unmanaged:
-        steps:
-            3.2:
-                task: deploy_packaged_metadata_not_included_in_2GP
-                options:
-                    unmanaged: True
-
-    config_dev:
-        steps:
-            # 1:
-            #     task: deploy_post
-            # 2:
-            #     task: update_admin_profile
-            3:
-                task: dev_disable_gms_licensing
-                when: "'sfdo_grants' not in org_config.installed_packages"
-            4:
-                task: dev_lock_down_OWDs
-                # Tooling API: metadata_etl
-            5:
-                flow: customer_enablement
-            6:
-                flow: internal_only_manual_customer_post_install_setup
-            7:
-                flow: load_internal_storytelling_data
-            8:
-                flow: internal_config
-
-    config_qa:
-        steps:
-            # 1: deploy_post
-            1.1:
-                # 2gp_org needs unmunge_unpackaged_flow_2gp to be called after deploy_post.
-                # It is safe to call unmunge_unpackaged_flow_2gp from other flows using config_qa.
-                task: unmunge_unpackaged_flow_2gp
-            # 2: update_admin_profile
-            3:
-                task: dev_disable_gms_licensing
-                when: "'sfdo_grants' not in org_config.installed_packages"
-            4:
-                task: dev_lock_down_OWDs
-                # Tooling API: metadata_etl
-            5:
-                flow: customer_enablement
-            6:
-                flow: internal_only_manual_customer_post_install_setup
-            7:
-                flow: qa_load_internal_storytelling_data
-            8:
-                flow: internal_config
-
-    config_managed:
-        steps:
-            # 1: deploy_post
-            1.1:
-                # 2gp_org needs unmunge_unpackaged_flow_2gp to be called after deploy_post.
-                # It is safe to call unmunge_unpackaged_flow_2gp from other flows using config_managed.
-                task: unmunge_unpackaged_flow_2gp
-            # 2: update_admin_profile
-            3:
-                task: dev_lock_down_OWDs
-            4:
-                flow: customer_enablement
-            5:
-                flow: internal_only_manual_customer_post_install_setup
-                options:
-                    dev_set_theme_layout_navigation_menu_and_publish:
-                        managed: True
-            6:
-                flow: load_internal_storytelling_data
-            7:
-                flow: internal_config
-
-    # Packaging
-    deploy_packaging:
-        # deploy_packaging is called in the ci_master flow, and the ci_master flow is
-        # called during the "Upload Beta" MetaCI task when we merge to `master`.
-        # Learn more about each flow by calling `cci flow info deploy_packaging` and
-        # `cci flow info ci_master`.
-        steps:
-            0:
-                task: inject_spc_key
-            0.1:
-                task: inject_spc_endpoint
-            0.2:
-                task: dx_convert_from
-                when: project_config.project__source_format == "sfdx"
-            4.1:
-                task: deploy_packaged_metadata_not_included_in_2GP
-                options:
-                    unmanaged: True
-
-    build_feature_test_package:
-        steps:
-            1.1:
-                task: inject_spc_key
-            1.2:
-                task: inject_spc_endpoint
-
-    install_2gp_commit:
-        steps:
-            3.1:
-                task: deploy_packaged_metadata_not_included_in_2GP
-                options:
-                    unmanaged: False
-
-    ci_feature_2gp:
-        steps:
-            1.1:
-                task: munge_unpackaged_flow_2gp
-            2.1:
-                task: unmunge_unpackaged_flow_2gp
-
-    install_beta:
-        steps:
-            1:
-                flow: dependencies
-                options:
-                    update_dependencies:
-                        resolution_strategy: include_beta
-
-    2gp_org:
-        steps:
-            1:
-                flow: install_2gp_commit
-            2:
-                task: munge_unpackaged_flow_2gp
-            3:
-                flow: config_managed
-            4:
-                task: snapshot_changes
-
-    qa_org_2gp:
-        steps:
-            # 1: flow: install_2gp_commit
-            1.1:
-                task: munge_unpackaged_flow_2gp
-            # 2: flow: config_qa
-            # 3: task: snapshot_changes
-
-    demo_org_2gp:
-        steps:
-            1:
-                flow: install_2gp_commit
-            2:
-                task: munge_unpackaged_flow_2gp
-            3:
-                task: deploy_post
-            3.1:
-                task: unmunge_unpackaged_flow_2gp
-            4:
-                flow: customer_enablement
-            5:
-                flow: internal_only_manual_customer_post_install_setup
-            6:
-                flow: load_internal_storytelling_data
-            7:
-                task: snapshot_changes
-
     customer_org:
-        # All steps should assume managed context.
-        description: Installs only our product and no configuration.
+        description: Installs only Grants Management and no configuration.
         steps:
             1:
                 task: update_dependencies
@@ -1260,7 +197,6 @@ flows:
                 when: "org_config.has_minimum_package_version('npsp', '1.0')"
 
     customer_enablement:
-        # All steps should assume managed context.
         description: Deploys our recommended unpackaged metadata and recommended configuration.
         steps:
             1:
@@ -1302,133 +238,13 @@ flows:
                     name: "Update Funding Program Portal Profile (Guest User) profile"
                     is_required: True
 
-    internal_only_manual_customer_post_install_setup:
-        description: "Steps new customers are instructed to manually configure post-installation.  We would want to automate this configuration in customer_enablement, but we currently don't have safe CumulusCI tasks to perform these actions.  This flow may only be used for INTERNAL ORGS."
-        steps:
-            1:
-                task: dev_sort_app_menu
-                # Tooling API: Apex Anonymous
-            2:
-                task: dev_set_theme_layout_navigation_menu_and_publish
-                # sfdx
-
     customer_org_full:
+        description: Installs Grants Management and deploys are recommended unpackaged metadata and configuration.
         steps:
             1:
                 flow: customer_org
             2:
                 flow: customer_enablement
-
-    demo_org:
-        steps:
-            1:
-                flow: customer_org_full
-            2:
-                flow: internal_only_manual_customer_post_install_setup
-            3:
-                flow: load_internal_storytelling_data
-
-    # In Context Testing (ICT) orgs
-    ict_org:
-        description: "Base ICT org configuration."
-        steps:
-            1:
-                flow: demo_org_2gp
-            2:
-                task: ict_admin_has_full_login_ip_address_range
-            3:
-                task: ict_review_validation_rules
-
-    ict_org_en_US:
-        description: "ict_org for English (en_US) locale"
-        steps:
-            1:
-                flow: ict_org
-            2:
-                task: ict_set_default_user_language_and_locale
-                options:
-                    # LanguageLocaleKey
-                    param1: en_US
-                    # LocaleSidKey
-                    param2: en_US
-
-    ict_org_de_DE:
-        description: "ict_org for German (de_DE) locale"
-        steps:
-            1:
-                flow: ict_org
-            2:
-                task: ict_set_default_user_language_and_locale
-                options:
-                    # LanguageLocaleKey
-                    param1: de
-                    # LocaleSidKey
-                    param2: de_DE
-
-    ict_org_es_US:
-        description: "ict_org for Spanish (es_US) locale"
-        steps:
-            1:
-                flow: ict_org
-            2:
-                task: ict_set_default_user_language_and_locale
-                options:
-                    # LanguageLocaleKey
-                    param1: es
-                    # LocaleSidKey
-                    param2: es_US
-
-    ict_org_fr_FR:
-        description: "ict_org for French (fr_FR) locale"
-        steps:
-            1:
-                flow: ict_org
-            2:
-                task: ict_set_default_user_language_and_locale
-                options:
-                    # LanguageLocaleKey
-                    param1: fr
-                    # LocaleSidKey
-                    param2: fr_FR
-
-    ict_org_ja_JP:
-        description: "ict_org for Japanese (ja_JP) locale"
-        steps:
-            1:
-                flow: ict_org
-            2:
-                task: ict_set_default_user_language_and_locale
-                options:
-                    # LanguageLocaleKey
-                    param1: ja
-                    # LocaleSidKey
-                    param2: ja_JP
-
-    ict_org_nl_NL:
-        description: "ict_org for Dutch (nl) locale"
-        steps:
-            1:
-                flow: ict_org
-            2:
-                task: ict_set_default_user_language_and_locale
-                options:
-                    # LanguageLocaleKey
-                    param1: nl_NL
-                    # LocaleSidKey
-                    param2: nl_NL
-
-    ict_org_en_GB:
-        description: "ict_org for English GB (en_GB) locale"
-        steps:
-            1:
-                flow: ict_org
-            2:
-                task: ict_set_default_user_language_and_locale
-                options:
-                    # LanguageLocaleKey
-                    param1: en_GB
-                    # LocaleSidKey
-                    param2: en_GB
 
 plans:
     install:
