@@ -30,6 +30,15 @@ To get help with any installation error, immediately execute the `cci error info
 
 # Installers
 
+-   [Install Grants Management and Build Community](#Install-Grants-Management-and-Build-Community)
+-   [Install Grants Management](#Install-Grants-Management)
+-   [Install Grants Management Flows](#Install-Grants-Management-Flows)
+    -   [Deploy Grants Management: Multi-Section Application Form (Sample) and subflow](#Deploy-Grants-Management-Multi-Section-Application-Form-Sample-and-subflow)
+    -   [Deploy Enhanced Application (Sample) Flow](#Deploy-Enhanced-Application-Sample-Flow)
+    -   [Deploy Create Application Flow](#Deploy-Create-Application-Flow)
+    -   [Deploy Submit Application Flow](#Deploy-Submit-Application-Flow)
+    -   [Deploy Grants Management: Validate EIN (Sample) Flow](#Deploy-Grants-Management-Validate-EIN-Sample-Flow)
+
 ## Install Grants Management and Build Community
 
 This installs Grants Management into your org. The installer creates a Community with the Grantee Portal template and applies our recommended configurations.
