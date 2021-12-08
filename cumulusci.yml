@@ -167,6 +167,8 @@ flows:
                         name: Deploy Visual Assets
             4:
                 task: install_managed
+                options:
+                    namespace: "sfdo_grants"
             5:
                 task: deploy_post
                 ui_options:
