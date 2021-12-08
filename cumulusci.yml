@@ -9,10 +9,12 @@ project:
         name: Grants Management
         namespace: sfdo_grants
         api_version: "52.0"
-    source_format: sfdx
+    git:
+        repo_url: https://github.com/SalesforceFoundation/Grants-Management.git
     dependencies:
         - github: https://github.com/SalesforceFoundation/sfdo-base
         - github: https://github.com/SalesforceFoundation/OutboundFunds
+    source_format: sfdx
 
 tasks:
     # Flows
@@ -169,6 +171,7 @@ flows:
                 task: install_managed
                 options:
                     namespace: "sfdo_grants"
+                    version: latest
             5:
                 task: deploy_post
                 ui_options:

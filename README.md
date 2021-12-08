@@ -98,6 +98,10 @@ cci flow run customer_org --org <your connected Salesforce org>
 
 Install or overwrite the selected unpackaged Grants Management flows in your org. After installation, you can access and activate earlier versions of previously-installed flows as needed. Be sure to create a backup of any changes before proceeding.
 
+> **Additional Prerequisites**
+>
+> -   Grants Management version 1.17 is the minimum version required to (re)install any unpackaged Grants Management flows.
+
 ### Deploy Grants Management: Multi-Section Application Form (Sample) and subflow
 
 To install or overwrite the Grants Management: Multi-Section Application Form (Sample) and subflow, open a terminal at this repository and execute the following command:
