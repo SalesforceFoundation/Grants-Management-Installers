@@ -58,7 +58,7 @@ This installs Grants Management into your org. The installer creates a Community
 To install, open a terminal at this repository and execute the following command:
 
 ```
-cci flow run customer_org_full --org <your connect Salesforce org>
+cci flow run customer_org_full --org <your connected Salesforce org>
 ```
 
 ## Install Grants Management
@@ -82,7 +82,7 @@ This will install Grants Management into your org.
 To install, open a terminal at this repository and execute the following command:
 
 ```
-cci flow run customer_org --org <your connect Salesforce org>
+cci flow run customer_org --org <your connected Salesforce org>
 ```
 
 ## Install Grants Management Flows
@@ -94,7 +94,7 @@ Install or overwrite the selected unpackaged Grants Management flows in your org
 To install or overwrite the Grants Management: Multi-Section Application Form (Sample) and subflow, open a terminal at this repository and execute the following command:
 
 ```
-cci task run deploy_multi_stage_app_flow --org <your connect Salesforce org>
+cci task run deploy_multi_stage_app_flow --org <your connected Salesforce org>
 ```
 
 ## Deploy Enhanced Application (Sample) Flow
@@ -102,7 +102,7 @@ cci task run deploy_multi_stage_app_flow --org <your connect Salesforce org>
 To install or overwrite the Deploy Enhanced Application (Sample) Flow, open a terminal at this repository and execute the following command:
 
 ```
-cci task run deploy_enhanced_application_flow --org <your connect Salesforce org>
+cci task run deploy_enhanced_application_flow --org <your connected Salesforce org>
 ```
 
 ## Deploy Create Application Flow
@@ -110,7 +110,7 @@ cci task run deploy_enhanced_application_flow --org <your connect Salesforce org
 To install or overwrite the Create Application Flow, open a terminal at this repository and execute the following command:
 
 ```
-cci task run deploy_funding_program_application_flow --org <your connect Salesforce org>
+cci task run deploy_funding_program_application_flow --org <your connected Salesforce org>
 ```
 
 ## Deploy Submit Application Flow
@@ -118,7 +118,7 @@ cci task run deploy_funding_program_application_flow --org <your connect Salesfo
 To install or overwrite the Submit Application Flow, open a terminal at this repository and execute the following command:
 
 ```
-cci task run deploy_submit_application_flow --org <your connect Salesforce org>
+cci task run deploy_submit_application_flow --org <your connected Salesforce org>
 ```
 
 ## Deploy Grants Management: Validate EIN (Sample) Flow
@@ -126,5 +126,5 @@ cci task run deploy_submit_application_flow --org <your connect Salesforce org>
 To install or overwrite the Grants Management: Validate EIN (Sample) Flow, open a terminal at this repository and execute the following command:
 
 ```
-cci task run deploy_validate_ein_flow --org <your connect Salesforce org>
+cci task run deploy_validate_ein_flow --org <your connected Salesforce org>
 ```
