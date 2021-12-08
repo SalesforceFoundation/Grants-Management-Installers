@@ -89,7 +89,7 @@ cci flow run customer_org --org <your connected Salesforce org>
 
 Install or overwrite the selected unpackaged Grants Management flows in your org. After installation, you can access and activate earlier versions of previously-installed flows as needed. Be sure to create a backup of any changes before proceeding.
 
-## Deploy Grants Management: Multi-Section Application Form (Sample) and subflow
+### Deploy Grants Management: Multi-Section Application Form (Sample) and subflow
 
 To install or overwrite the Grants Management: Multi-Section Application Form (Sample) and subflow, open a terminal at this repository and execute the following command:
 
@@ -97,7 +97,7 @@ To install or overwrite the Grants Management: Multi-Section Application Form (S
 cci task run deploy_multi_stage_app_flow --org <your connected Salesforce org>
 ```
 
-## Deploy Enhanced Application (Sample) Flow
+### Deploy Enhanced Application (Sample) Flow
 
 To install or overwrite the Deploy Enhanced Application (Sample) Flow, open a terminal at this repository and execute the following command:
 
@@ -105,7 +105,7 @@ To install or overwrite the Deploy Enhanced Application (Sample) Flow, open a te
 cci task run deploy_enhanced_application_flow --org <your connected Salesforce org>
 ```
 
-## Deploy Create Application Flow
+### Deploy Create Application Flow
 
 To install or overwrite the Create Application Flow, open a terminal at this repository and execute the following command:
 
@@ -113,7 +113,7 @@ To install or overwrite the Create Application Flow, open a terminal at this rep
 cci task run deploy_funding_program_application_flow --org <your connected Salesforce org>
 ```
 
-## Deploy Submit Application Flow
+### Deploy Submit Application Flow
 
 To install or overwrite the Submit Application Flow, open a terminal at this repository and execute the following command:
 
@@ -121,7 +121,7 @@ To install or overwrite the Submit Application Flow, open a terminal at this rep
 cci task run deploy_submit_application_flow --org <your connected Salesforce org>
 ```
 
-## Deploy Grants Management: Validate EIN (Sample) Flow
+### Deploy Grants Management: Validate EIN (Sample) Flow
 
 To install or overwrite the Grants Management: Validate EIN (Sample) Flow, open a terminal at this repository and execute the following command:
 
