@@ -10,7 +10,10 @@ project:
         namespace: sfdo_grants
         api_version: "52.0"
     git:
-        repo_url: https://github.com/SalesforceFoundation/Grants-Management.git
+        repo_url: https://github.com/SalesforceFoundation/Grants-Management
+        prefix_beta: beta/
+        prefix_release: release/
+        default_branch: main
     dependencies:
         - github: https://github.com/SalesforceFoundation/sfdo-base
         - github: https://github.com/SalesforceFoundation/OutboundFunds
