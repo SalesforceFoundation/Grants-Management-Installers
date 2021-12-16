@@ -12,7 +12,8 @@ project:
     git:
         repo_url: https://github.com/SalesforceFoundation/Grants-Management-Installers.git
     dependencies:
-        - github: https://github.com/SalesforceFoundation/sfdo-base
+        - namespace: sfdobase
+          version: 1.0
         - github: https://github.com/SalesforceFoundation/OutboundFunds
 
 tasks:
