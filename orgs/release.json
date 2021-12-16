@@ -1,0 +1,38 @@
+{
+  "orgName": "SFDO-Grants - Release Test Org",
+  "edition": "Developer",
+  "features": ["GRANTSMANAGEMENTUSER", "Communities"],
+  "settings": {
+    "lightningExperienceSettings": {
+      "enableS1DesktopEnabled": true
+    },
+    "userManagementSettings": {
+      "enableEnhancedPermsetMgmt": true,
+      "enableEnhancedProfileMgmt": true,
+      "enableNewProfileUI": true
+    },
+    "chatterSettings": {
+      "enableChatter": true
+    },
+    "securitySettings": {
+      "enableAdminLoginAsAnyUser": true,
+      "sessionSettings": {
+        "forceRelogin": false
+      }
+    },
+    "apexSettings": {
+      "enableDisableParallelApexTesting": true
+    },
+    "sharingSettings": {
+      "enableSecureGuestAccess": true
+    },
+    "communitiesSettings": {
+      "enableNetworksEnabled": true,
+      "enableGuestRecordReassignOrgPref": true,
+      "enableOotbProfExtUserOpsEnable": true
+    },
+    "experienceBundleSettings": {
+      "enableExperienceBundleMetadata": true
+    }
+  }
+}

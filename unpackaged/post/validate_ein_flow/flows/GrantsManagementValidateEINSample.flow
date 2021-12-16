@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <assignments>
+        <description>Changes the fields on the Account from the selected results, including:
+- Account Name to the Name
+- Tax ID to the EIN</description>
+        <name>Set_Account_Fields</name>
+        <label>Set Account Fields</label>
+        <locationX>176</locationX>
+        <locationY>518</locationY>
+        <assignmentItems>
+            <assignToReference>Get_Account_Record.Name</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Account_Record.%%%NAMESPACE%%%Tax_ID__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>EIN</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Account</targetReference>
+        </connector>
+    </assignments>
+    <description>The Grants Management: Validate EIN (Sample) is an example flow that shows one way to use the Tax Status Search component. This sample flow includes a screen to perform a tax status search based on an Account’s Tax ID, and updates the Account’s Name and Tax ID values using the selected match. Clone this sample flow and make updates that fit your organization’s needs.</description>
+    <interviewLabel>Grants Management: Validate EIN (Sample) {!$Flow.CurrentDateTime}</interviewLabel>
+    <isTemplate>true</isTemplate>
+    <label>Grants Management: Validate EIN (Sample)</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <description>Searches for and retrieves the Account record related to this flow.</description>
+        <name>Get_Account_Record</name>
+        <label>Get Account Record</label>
+        <locationX>176</locationX>
+        <locationY>158</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Tax_Status</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Updates the Account Name and Tax ID fields on the Account record.</description>
+        <name>Update_Account</name>
+        <label>Update Account</label>
+        <locationX>176</locationX>
+        <locationY>638</locationY>
+        <connector>
+            <targetReference>Success_Message</targetReference>
+        </connector>
+        <inputReference>Get_Account_Record</inputReference>
+    </recordUpdates>
+    <screens>
+        <description>Shows the Tax Status Search component to the grantmaker, allowing them to search for a United States-based organization’s EIN and select a valid result.</description>
+        <name>Check_Tax_Status</name>
+        <label>Check Tax Status</label>
+        <locationX>176</locationX>
+        <locationY>278</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Selected_Match_Results</targetReference>
+        </connector>
+        <fields>
+            <name>Tax_Status_Search_Screen</name>
+            <extensionName>%%%NAMESPACE_OR_C%%%:taxStatusSearch</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>ein</name>
+                <value>
+                    <elementReference>Get_Account_Record.%%%NAMESPACE%%%Tax_ID__c</elementReference>
+                </value>
+            </inputParameters>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <description>Shows tax search results from GuideStar that a grantmaker selected.</description>
+        <name>Selected_Match_Results</name>
+        <label>Selected Match Results</label>
+        <locationX>176</locationX>
+        <locationY>398</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Set_Account_Fields</targetReference>
+        </connector>
+        <fields>
+            <name>Header</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 20px;&quot;&gt;Selected Match Results&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Click &lt;b&gt;Next&lt;/b&gt; to save the following information to the Account. You can also make updates to editable fields.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Name</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>Tax_Status_Search_Screen.selectedLegalOrganizationName</elementReference>
+            </defaultValue>
+            <fieldText>Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>EIN</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>Tax_Status_Search_Screen.selectedTaxId</elementReference>
+            </defaultValue>
+            <fieldText>Tax ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Additional_Information</name>
+            <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 20px;&quot;&gt;Additional Information&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;The following information is also available from the selected match.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 11px; background-color: rgb(255, 255, 255);&quot;&gt;Selected IRS Subsection Code&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;{!Tax_Status_Search_Screen.selectedTaxStatusCode}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 11px; background-color: rgb(255, 255, 255);&quot;&gt;Selected Most Recent BMF Date&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!Tax_Status_Search_Screen.selectedMostRecentBmf}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 11px;&quot;&gt;Selected Raw Tax Status Search Results&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;{!Tax_Status_Search_Screen.rawResult}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <description>Confirmation message that the Account record was successfully updated.</description>
+        <name>Success_Message</name>
+        <label>Success Message</label>
+        <locationX>176</locationX>
+        <locationY>758</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Message</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;Account was updated. Click &lt;/span&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Finish&lt;/b&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt; to close and view the changes.&lt;/span&gt;&lt;span style=&quot;font-size: 18px; color: rgb(0, 0, 0);&quot;&gt;﻿&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Account_Record</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
