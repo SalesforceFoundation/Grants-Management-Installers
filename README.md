@@ -1,18 +1,19 @@
 # Grants Management Express Setup
+
 This read-only repository contains CumulusCI automation and unmanaged metadata components used in the Grants Management MetaDeploy installer.
 
 Visit the [Grants Management customer group](https://trailhead.salesforce.com/trailblazer-community/groups/0F94S000000GvrgSAC) or [Salesforce Partner Community - Grants Management Experts Group](https://partners.salesforce.com/_ui/core/chatter/groups/GroupProfilePage?g=0F94V000000LpYeSAK) for any questions about this repository or Grants Management.
 
 # Installers
 
--   [Grants Management and Build Community](#Install-Grants-Management-and-Build-Community)
--   [Grants Management](#Install-Grants-Management)
--   [Grants Management Flows](#Install-Grants-Management-Flows)
-    -   [Grants Management: Multi-Section Application Form (Sample) and subflow](#Deploy-Grants-Management-Multi-Section-Application-Form-Sample-and-subflow)
-    -   [Enhanced Application (Sample) Flow](#Deploy-Enhanced-Application-Sample-Flow)
-    -   [Create Application Flow](#Deploy-Create-Application-Flow)
-    -   [Submit Application Flow](#Deploy-Submit-Application-Flow)
-    -   [Grants Management: Validate EIN (Sample) Flow](#Deploy-Grants-Management-Validate-EIN-Sample-Flow)
+- [Grants Management and Build Community](#Grants-Management-and-Build-Community)
+- [Grants Management](#Grants-Management)
+- [Grants Management Flows](#Grants-Management-Flows)
+  - [Grants Management: Multi-Section Application Form (Sample) and subflow](#Grants-Management-Multi-Section-Application-Form-Sample-and-subflow)
+  - [Enhanced Application (Sample) Flow](#Enhanced-Application-Sample-Flow)
+  - [Create Application Flow](#Create-Application-Flow)
+  - [Submit Application Flow](#Submit-Application-Flow)
+  - [Grants Management: Validate EIN (Sample) Flow](#Grants-Management-Validate-EIN-Sample-Flow)
 
 ## Grants Management and Build Community
 
