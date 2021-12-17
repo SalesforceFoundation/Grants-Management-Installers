@@ -6,8 +6,8 @@ Visit the [Grants Management customer group](https://trailhead.salesforce.com/tr
 
 # Installers
 
-- [Grants Management and Build Community](#Grants-Management-and-Build-Community)
-- [Grants Management](#Grants-Management)
+- [Grants Management and Funding Program Portal Community](#Grants-Management-and-Funding-Program-Portal-Community)
+- [Grants Management, Only](#Grants-Management-Only)
 - [Grants Management Flows](#Grants-Management-Flows)
   - [Grants Management: Multi-Section Application Form (Sample) and subflow](#Grants-Management-Multi-Section-Application-Form-Sample-and-subflow)
   - [Enhanced Application (Sample) Flow](#Enhanced-Application-Sample-Flow)
@@ -15,9 +15,9 @@ Visit the [Grants Management customer group](https://trailhead.salesforce.com/tr
   - [Submit Application Flow](#Submit-Application-Flow)
   - [Grants Management: Validate EIN (Sample) Flow](#Grants-Management-Validate-EIN-Sample-Flow)
 
-## Grants Management and Build Community
+## Grants Management and Funding Program Portal Community
 
-This installs Grants Management into your org. The installer creates a Community with the Grantee Portal template and applies our recommended configurations.
+This installs the recommended setup of Grants Management into your org. In addition to installing Grants Management, this installer creates a Community with the Grantee Portal template and applies our recommended configurations.
 
 | Steps                                                                   | Type     |          |
 | ----------------------------------------------------------------------- | -------- | -------- |
@@ -40,9 +40,9 @@ This installs Grants Management into your org. The installer creates a Community
 | Add Funding Program Portal Branding                                     | Metadata | Required |
 | Update Funding Program Portal Profile (Guest User) profile              | Metadata | Required |
 
-## Grants Management
+## Grants Management, Only
 
-This installs Grants Management into your org.
+This installs Grants Management into your org and doesn't create the Funding Program Portal.
 
 | Steps                                                                   | Type     |          |
 | ----------------------------------------------------------------------- | -------- | -------- |
