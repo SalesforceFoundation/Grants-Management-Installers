@@ -69,7 +69,6 @@ The Grants Management: Multi-Section Application Form (Sample) flow shows a gran
 The Enhanced Application (Sample) flow condenses the default application experience using the Create Application flow from three screens to one screen. This is a sample flow and includes example application language, unmapped custom fields, and a file upload component within a single page.
 
 ```
-cci task run deploy_enhanced_application_flow --org <your connected Salesforce org>
 ```
 
 ### Create Application Flow
