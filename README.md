@@ -68,9 +68,6 @@ The Grants Management: Multi-Section Application Form (Sample) flow shows a gran
 
 The Enhanced Application (Sample) flow condenses the default application experience using the Create Application flow from three screens to one screen. This is a sample flow and includes example application language, unmapped custom fields, and a file upload component within a single page.
 
-```
-```
-
 ### Create Application Flow
 
 The Create Application flow automates how the application initially starts for your grantseeker. This involves retrieving information about the Funding Program and user’s Contact information, autofilling fields on the application, and creating the application record. Without this flow, a grantseeker can’t apply for a Funding Request without making permission updates to the Grantseeker Plus Login profile.
