@@ -108,33 +108,6 @@ tasks:
             profile_names:
                 - Grantseeker Plus Login
 
-    # Verification checks
-    create_verificationitem_document_type:
-        group: "Grants Management: Verification checks"
-        description: "Creates the 'Verification Item' Document Type for the due diligence process"
-        class_path: cumulusci.tasks.salesforce.insert_record.InsertRecord
-        options:
-            object: DocumentType
-            values:
-                DeveloperName: VerificationItem
-                MasterLabel: Verification Item
-                Language: en_us
-                Description: Identifies the Document Checklist Item is for due diligence verification.
-                isActive: True
-
-    create_taxstatussearch_document_type:
-        group: "Grants Management: Verification checks"
-        description: "Creates the 'Tax Status Search' Document Type for the due diligence verification process."
-        class_path: cumulusci.tasks.salesforce.insert_record.InsertRecord
-        options:
-            object: DocumentType
-            values:
-                DeveloperName: Tax_Status_Search
-                MasterLabel: Tax Status Search
-                Language: en_us
-                Description: Identifies the Document Checklist Item is for a tax status search Verification Check.
-                isActive: True
-
     # Installation pre-flight checks
     check_sharing_set_owds:
         group: "Grants Management: Preflight Checks"
