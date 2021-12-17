@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignments>
+        <description>Finish &quot;pre-filling&quot; Application fields.</description>
+        <name>AutocompleteAssignment</name>
+        <label>Autocomplete Application</label>
+        <locationX>778</locationX>
+        <locationY>806</locationY>
+        <assignmentItems>
+            <assignToReference>Application.outfunds__Applying_Contact__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>CurrentUserContactId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Application.outfunds__FundingProgram__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FundingProgram.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Application.Name</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FundingRequestName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Application.outfunds__Requested_Amount__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>RequestedAmount</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Application.outfunds__Requested_For__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>RequestedFor</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Application.outfunds__Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>In progress</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CreateApplication</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Exit the flow if the current applicant is a user of type &quot;guest&quot;</description>
+        <name>Is_Guest_User_Decision</name>
+        <label>Is Guest User?</label>
+        <locationX>712</locationX>
+        <locationY>206</locationY>
+        <defaultConnector>
+            <targetReference>ConfirmContinueToApplication</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Guest_User_Outcome</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CurrentUserIsGuest</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>GuestUserScreen</targetReference>
+            </connector>
+            <label>Is Guest User</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Decide if the program is active and open for applications. 
+The decision is based on Status and Start/End Dates</description>
+        <name>IsTheFundingProgramActive</name>
+        <label>Is the Funding Program Active ?</label>
+        <locationX>910</locationX>
+        <locationY>446</locationY>
+        <defaultConnector>
+            <targetReference>InactiveProgram</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Active</defaultConnectorLabel>
+        <rules>
+            <name>Active</name>
+            <conditionLogic>1 AND (4 OR 2) AND (5 OR 3)</conditionLogic>
+            <conditions>
+                <leftValueReference>FundingProgram.outfunds__Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>In progress</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FundingProgram.outfunds__Start_Date__c</leftValueReference>
+                <operator>LessThanOrEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Flow.CurrentDate</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FundingProgram.outfunds__End_Date__c</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Flow.CurrentDate</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FundingProgram.outfunds__Start_Date__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FundingProgram.outfunds__End_Date__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Contact</targetReference>
+            </connector>
+            <label>Active</label>
+        </rules>
+    </decisions>
+    <description>If the Funding Program is accepting applications, Community users can create an application with some fields automatically populated.  After creating the application, the user is redirected to the new application record.</description>
+    <formulas>
+        <name>CurrentUserContactId</name>
+        <dataType>String</dataType>
+        <expression>{!$User.ContactId}</expression>
+    </formulas>
+    <formulas>
+        <name>CurrentUserId</name>
+        <dataType>String</dataType>
+        <expression>{!$User.Id}</expression>
+    </formulas>
+    <formulas>
+        <description>Returns true if the current user context is &quot;Guest&quot;</description>
+        <name>CurrentUserIsGuest</name>
+        <dataType>Boolean</dataType>
+        <expression>ISPICKVAL({!$User.UserType}, &quot;Guest&quot;)</expression>
+    </formulas>
+    <formulas>
+        <description>Concatenate Contact Name + Program Name</description>
+        <name>FundingRequestName</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!CurrentUserContactId}), {!$User.FirstName} + &quot; &quot; + {!$User.LastName}, {!Contact.Name})+ &apos;: &apos; + {!FundingProgram.Name}</expression>
+    </formulas>
+    <interviewLabel>Create Application {!$Flow.CurrentDateTime}</interviewLabel>
+    <isTemplate>true</isTemplate>
+    <label>Create Application</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordCreates>
+        <description>Inserts Application record.</description>
+        <name>CreateApplication</name>
+        <label>Create Application</label>
+        <locationX>778</locationX>
+        <locationY>926</locationY>
+        <connector>
+            <targetReference>ThankYou</targetReference>
+        </connector>
+        <inputReference>Application</inputReference>
+    </recordCreates>
+    <recordLookups>
+        <name>Contact</name>
+        <label>Query Community User&apos;s Contact</label>
+        <locationX>778</locationX>
+        <locationY>566</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>FillOutApplication</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>CurrentUserContactId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>FundingProgram</name>
+        <label>Query Funding Program</label>
+        <locationX>910</locationX>
+        <locationY>326</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>IsTheFundingProgramActive</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>outfunds__Funding_Program__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <runInMode>SystemModeWithSharing</runInMode>
+    <screens>
+        <name>Application_File_Upload_Screen</name>
+        <label>Application File Upload Screen</label>
+        <locationX>778</locationX>
+        <locationY>1166</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>NavigationToApplicationDetail</targetReference>
+        </connector>
+        <fields>
+            <name>ApplicationFlowUpload</name>
+            <extensionName>forceContent:fileUpload</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Upload Documentation</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>recordId</name>
+                <value>
+                    <elementReference>Application.Id</elementReference>
+                </value>
+            </inputParameters>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>ConfirmContinueToApplication</name>
+        <label>Confirm Continue To Application</label>
+        <locationX>910</locationX>
+        <locationY>213</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>FundingProgram</targetReference>
+        </connector>
+        <fields>
+            <name>ContinueApplicationConfirmationMessage</name>
+            <fieldText>&lt;p&gt;Click &lt;b&gt;Next&lt;/b&gt; to start a new application.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;To view an in progress application, close this window then click &lt;b&gt;My Applications&lt;/b&gt;.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>FillOutApplication</name>
+        <label>Fill out Application</label>
+        <locationX>778</locationX>
+        <locationY>686</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>AutocompleteAssignment</targetReference>
+        </connector>
+        <fields>
+            <name>FundingProgramName</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;Program Name&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!FundingProgram.Name}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>RequestedAmount</name>
+            <dataType>Currency</dataType>
+            <fieldText>Requested Amount</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+            <scale>2</scale>
+        </fields>
+        <fields>
+            <name>RequestedFor</name>
+            <fieldText>Requested For</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <description>The current user is not authenticated within the community and must do so before applying for funding.</description>
+        <name>GuestUserScreen</name>
+        <label>Guest User Screen</label>
+        <locationX>514</locationX>
+        <locationY>326</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>GuestUserScreenText</name>
+            <fieldText>&lt;p&gt;You need to &lt;a href=&quot;/fundingprograms/s/login&quot; target=&quot;_blank&quot;&gt;log in&lt;/a&gt; to or &lt;a href=&quot;/fundingprograms/s/login/SelfRegister&quot; target=&quot;_blank&quot;&gt;sign up&lt;/a&gt; for an account before you can apply for funding.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <description>The program is not accepting applications (The status is not In Progress and the current date is not between the start and end dates)</description>
+        <name>InactiveProgram</name>
+        <label>Inactive Program</label>
+        <locationX>1042</locationX>
+        <locationY>566</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Not_Accepting_Applications</name>
+            <fieldText>&lt;p&gt;The program is currently not accepting applications&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <description>Navigates the page to the newly created Application record.</description>
+        <name>NavigationToApplicationDetail</name>
+        <label>Navigate to the new Application</label>
+        <locationX>778</locationX>
+        <locationY>1286</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>NavigateToApplication</name>
+            <extensionName>%%%NAMESPACE_OR_C%%%:flowNavigateToRecord</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>recordId</name>
+                <value>
+                    <elementReference>Application.Id</elementReference>
+                </value>
+            </inputParameters>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>ThankYou</name>
+        <label>Thank you</label>
+        <locationX>778</locationX>
+        <locationY>1046</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Application_File_Upload_Screen</targetReference>
+        </connector>
+        <fields>
+            <name>ThankYouMessage</name>
+            <fieldText>&lt;p&gt;Thanks. Now, in the next step, you can:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Add attachments.&lt;/li&gt;&lt;/ul&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>586</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Is_Guest_User_Decision</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>New Application (Funding Request) record.</description>
+        <name>Application</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>outfunds__Funding_Request__c</objectType>
+    </variables>
+    <variables>
+        <name>FundingRequestId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue/>
+        </value>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
