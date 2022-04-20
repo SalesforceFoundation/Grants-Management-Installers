@@ -17,73 +17,102 @@ project:
         - github: https://github.com/SalesforceFoundation/OutboundFunds
 
 tasks:
-    # Flows
     deploy_multi_stage_app_flow:
-        group: "Grants Management: Flows"
+        group: "Customer unpackaged metadata (post)"
         description: Deploys multi_stage_app_flow flows.
         class_path: cumulusci.tasks.salesforce.Deploy
         options:
             path: unpackaged/post/multi_stage_app_flow
 
     deploy_enhanced_application_flow:
-        group: "Grants Management: Flows"
+        group: "Customer unpackaged metadata (post)"
         description: Deploys enhanced_application flow.
         class_path: cumulusci.tasks.salesforce.Deploy
         options:
             path: unpackaged/post/enhanced_application
 
     deploy_funding_program_application_flow:
-        group: "Grants Management: Flows"
+        group: "Customer unpackaged metadata (post)"
         description: Deploys funding_program_application_flow flow.
         class_path: cumulusci.tasks.salesforce.Deploy
         options:
             path: unpackaged/post/funding_program_application_flow
 
     deploy_submit_application_flow:
-        group: "Grants Management: Flows"
+        group: "Customer unpackaged metadata (post)"
         description: Deploys submit_application flow.
         class_path: cumulusci.tasks.salesforce.Deploy
         options:
             path: unpackaged/post/submit_application
 
     deploy_validate_ein_flow:
-        group: "Grants Management: Flows"
+        group: "Customer unpackaged metadata (post)"
         description: Deploys validate_ein_flow flow.
         class_path: cumulusci.tasks.salesforce.Deploy
         options:
             path: unpackaged/post/validate_ein_flow
 
-    # Experience Site
-    deploy_network_branding:
-        group: "Grants Management: Experience Site"
-        description: Deploys the NetworkBranding files for the Funding Program Portal.   Must be deployed after creating the "Funding Program Portal" Community.
-        class_path: cumulusci.tasks.salesforce.Deploy
-        options:
-            path: unpackaged/customer_enablement/network_branding
-
+    # Customer enablement tasks:
+    # - These tasks are intended to be exposed to customers.
+    # - All tasks here should be configured for managed context by default.
     deploy_grantseeker_sharing_set:
-        group: "Grants Management: Experience Site"
+        group: "Customer unpackaged metadata (customer enablement)"
         description: Deploys the "Grantseeker" Sharing Set for community users.   Must be deployed after deploying the "Grantseeker Plus Login" Profile.
         class_path: cumulusci.tasks.salesforce.Deploy
         options:
             path: unpackaged/customer_enablement/grantseeker_sharing_set
 
     deploy_guest_user_profile:
-        group: "Grants Management: Experience Site"
+        group: "Customer unpackaged metadata (customer enablement)"
         description: Deploys the "Funding Program Portal Profile" profile for guest users.   Must be deployed after deploying the Funding Program Portal community.
         class_path: cumulusci.tasks.salesforce.Deploy
         options:
             path: unpackaged/customer_enablement/guest_user_profile
 
+    deploy_invite_collaborators:
+        group: "Customer unpackaged metadata (customer enablement)"
+        class_path: cumulusci.tasks.salesforce.Deploy
+        description: Deploys the "Invite Collaborators" Email Template, flow and workflow alert
+        options:
+            path: unpackaged/customer_enablement/invite_collaborators
+
     deploy_navigation_menu:
-        group: "Grants Management: Experience Site"
+        group: "Customer unpackaged metadata (customer enablement)"
         class_path: cumulusci.tasks.salesforce.Deploy
         description: Deploys the "Funding Program Portal Navigation" Navigation Menu for the "Funding Program Portal" Community/Network.   Must be deployed after creating the "Funding Program Portal" Community.
         options:
             path: unpackaged/customer_enablement/navigation_menu
 
+    deploy_network_branding:
+        group: "Customer unpackaged metadata (customer enablement)"
+        description: Deploy this after creating the "Funding Program Portal" Community. Deploys the NetworkBranding files for the Funding Program Portal.
+        class_path: cumulusci.tasks.salesforce.Deploy
+        options:
+            path: unpackaged/customer_enablement/network_branding
+
+    deploy_review_email_notification:
+        group: "Customer unpackaged metadata (customer enablement)"
+        class_path: cumulusci.tasks.salesforce.Deploy
+        description: Deploys the "Grants Management Reviewer Assignment Notification" Email Template, the "Grants Management Email the Assigned Reviewer (Sample)" workflow email alert and "Grants Management Email the Assigned Reviewer (Sample)" flow to send the email
+        options:
+            path: unpackaged/customer_enablement/review_email_notification
+
+    deploy_review_status_configuration:
+        group: "Customer unpackaged metadata (customer enablement)"
+        description: Deploys ReviewStatusConfiguration__mdt for the "Submitted" Status picklist value.
+        class_path: cumulusci.tasks.salesforce.Deploy
+        options:
+            path: unpackaged/customer_enablement/review_status_configuration
+
+    deploy_share_account_and_contact_with_collaborators_flow:
+        group: "Customer unpackaged metadata (customer enablement)"
+        class_path: cumulusci.tasks.salesforce.Deploy
+        description: 'Deploys the "Grants Management: Share Account and Contact with Collaborators (Sample)" flow. Assumes the Account External Sharing Model is "Private" and Contact External Sharing Model is "Controlled By Parent".'
+        options:
+            path: unpackaged/customer_enablement/share_account_and_contact_with_collaborators_flow
+
     create_grantseeker_community:
-        group: "Grants Management: Experience Site"
+        group: "Customer enablement"
         description: "Creates a community with the 'Grants' template"
         class_path: cumulusci.tasks.salesforce.CreateCommunity
         options:
@@ -93,14 +122,40 @@ tasks:
             timeout: 60000
 
     publish_grantseeker_community:
-        group: "Grants Management: Experience Site"
+        group: "Customer enablement"
         description: Publishes the "Funding Program Portal" Community in the target org using the Connect API
         class_path: cumulusci.tasks.salesforce.PublishCommunity
         options:
             name: Funding Program Portal
 
+    create_verificationitem_document_type:
+        group: "Customer enablement"
+        description: "Creates the 'Verification Item' Document Type for the due diligence process"
+        class_path: cumulusci.tasks.salesforce.insert_record.InsertRecord
+        options:
+            object: DocumentType
+            values:
+                DeveloperName: VerificationItem
+                MasterLabel: Verification Item
+                Language: en_us
+                Description: Identifies the Document Checklist Item is for due diligence verification.
+                isActive: True
+
+    create_taxstatussearch_document_type:
+        group: "Customer enablement"
+        description: "Creates the 'Tax Status Search' Document Type for the due diligence verification process."
+        class_path: cumulusci.tasks.salesforce.insert_record.InsertRecord
+        options:
+            object: DocumentType
+            values:
+                DeveloperName: Tax_Status_Search
+                MasterLabel: Tax Status Search
+                Language: en_us
+                Description: Identifies the Document Checklist Item is for a tax status search Verification Check.
+                isActive: True
+
     add_network_members:
-        group: "Grants Management: Experience Site"
+        group: "Customer enablement"
         description: "Create a NetworkMemberGroup record for the community user profile"
         class_path: cumulusci.tasks.salesforce.network_member_group.CreateNetworkMemberGroups
         options:
@@ -131,7 +186,7 @@ tasks:
 
 flows:
     customer_org:
-        description: Installs only Grants Management and no configuration.
+        description: Installs only our product and no configuration.
         steps:
             1:
                 task: update_dependencies
@@ -140,27 +195,25 @@ flows:
                 ui_options:
                     template_content_assets:
                         name: Deploy Visual Assets
-            4:
+            3:
                 task: install_managed
-                options:
-                    namespace: sfdo_grants
-                    version: "1.19"
-            5:
+            4:
                 task: deploy_post
                 ui_options:
+                    enhanced_application:
+                        name: "Deploy Grants Management: Enhanced Application (Sample) Flow"
                     funding_program_application_flow:
                         name: Deploy Create Application Flow
+                    multi_stage_app_flow:
+                        name: "Deploy Grants Management: Multi-Section Application Form (Sample) Flows"
                     profiles:
                         name: Deploy Profiles
                     submit_application:
                         name: Deploy Submit Application Flow
-                    enhanced_application:
-                        name: "Deploy Grants Management: Enhanced Application (Sample) Flow"
                     validate_ein_flow:
                         name: "Deploy Grants Management: Validate EIN (Sample) Flow"
-                    multi_stage_app_flow:
-                        name: "Deploy Grants Management: Multi-Section Application Form (Sample) Flows"
-            6:
+
+            5:
                 task: install_managed
                 options:
                     namespace: "outfundsnpspext"
@@ -214,6 +267,30 @@ flows:
                 ui_options:
                     name: "Update Funding Program Portal Profile (Guest User) profile"
                     is_required: True
+            8:
+                task: deploy_review_status_configuration
+                ui_options:
+                    name: "Add the submitted Review Status Configuration"
+                    is_required: True
+            9:
+                task: deploy_review_email_notification
+                ui_options:
+                    name: "Create the email notification template, workflow alert and flow to send the email"
+                    is_required: True
+            10:
+                task: deploy_invite_collaborators
+                ui_options:
+                    name: "Create the email template, workflow alert and flow for collaborators invitations"
+                    is_required: True
+            11:
+                task: deploy_share_account_and_contact_with_collaborators_flow
+                ui_options:
+                    name: "Create the flow to share Applying Organization and Applying Contact with collaborators."
+                    is_required: False
+                    is_recommended: True
+                checks:
+                    - when: "'AccountShare' not in tasks.check_sobjects_available()"
+                      action: hide
 
     customer_org_full:
         description: Installs Grants Management and deploys are recommended unpackaged metadata and configuration.
@@ -230,7 +307,7 @@ plans:
         tier: secondary
         is_listed: True
         preflight_message: "This will install Grants Management into your org."
-        post_install_message: "Thanks for installing Grants Management. Please visit the [Grants Management customer group](https://trailhead.salesforce.com/trailblazer-community/groups/0F94S000000GvrgSAC) on the Trailblazer Community for any questions about Grants Management."
+        post_install_message: "Thanks for installing Grants Management. Visit the [Grants Management customer group](https://trailhead.salesforce.com/trailblazer-community/groups/0F94S000000GvrgSAC) for any questions as you start using Grants Management."
         error_message: "To get help with this error, go to [help.salesforce.com](https://help.salesforce.com/), find the Support & Services area and log a technical support ticket with Salesforce. Include “Grants Management” in the subject line and include in your comment the installation link shown here."
         checks:
             - when: "'.my.' not in org_config.instance_url"
@@ -252,7 +329,7 @@ plans:
         tier: primary
         is_listed: True
         preflight_message: "This installs Grants Management into your org. The installer creates a Community with the Grantee Portal template and applies our recommended configurations."
-        post_install_message: "Thanks for installing Grants Management. Please visit the [Grants Management customer group](https://trailhead.salesforce.com/trailblazer-community/groups/0F94S000000GvrgSAC) on the Trailblazer Community for any questions about Grants Management."
+        post_install_message: "Thanks for installing Grants Management. Visit the [Grants Management customer group](https://trailhead.salesforce.com/trailblazer-community/groups/0F94S000000GvrgSAC) for any questions as you start using Grants Management."
         error_message: "To get help with this error, go to [help.salesforce.com](https://help.salesforce.com/), find the Support & Services area and log a technical support ticket with Salesforce. Include “Grants Management” in the subject line and include in your comment the installation link shown here."
         checks:
             - when: "'.my.' not in org_config.instance_url"
@@ -295,7 +372,7 @@ plans:
         tier: additional
         is_listed: True
         preflight_message: "Install or overwrite the selected unpackaged Grants Management flows in your org. After installation, you can access and activate earlier versions of previously-installed flows as needed. Be sure to create a backup of any changes before proceeding."
-        post_install_message: "Thanks for installing Grants Management flows. Please visit the [Grants Management customer group](https://trailhead.salesforce.com/trailblazer-community/groups/0F94S000000GvrgSAC) on the Trailblazer Community for any questions about Grants Management."
+        post_install_message: "Thanks for installing Grants Management flows. Visit the [Grants Management customer group](https://trailhead.salesforce.com/trailblazer-community/groups/0F94S000000GvrgSAC) for any questions as you start using Grants Management."
         error_message: "To get help with this error, go to [help.salesforce.com](https://help.salesforce.com/), find the Support & Services area and log a technical support ticket with Salesforce. Include “Grants Management” in the subject line and include in your comment the installation link shown here."
         checks:
             - when: "not org_config.has_minimum_package_version('sfdo_grants', '1.17')"
@@ -303,21 +380,21 @@ plans:
               message: "Grants Management version 1.17 is the minimum version required to install Grants Management flows. Please install or upgrade Grants Management and try again."
         steps:
             1:
-                task: deploy_multi_stage_app_flow
-                ui_options:
-                    name: "Deploy Grants Management: Multi-Section Application Form (Sample) and subflow"
-                    is_required: False
-                    is_recommended: False
-            2:
                 task: deploy_enhanced_application_flow
                 ui_options:
                     name: "Deploy Enhanced Application (Sample) Flow"
                     is_required: False
                     is_recommended: False
-            3:
+            2:
                 task: deploy_funding_program_application_flow
                 ui_options:
                     name: "Deploy Create Application Flow"
+                    is_required: False
+                    is_recommended: False
+            3:
+                task: deploy_multi_stage_app_flow
+                ui_options:
+                    name: "Deploy Grants Management: Multi-Section Application Form (Sample) and subflow"
                     is_required: False
                     is_recommended: False
             4:
@@ -332,3 +409,24 @@ plans:
                     name: "Deploy Grants Management: Validate EIN (Sample) Flow"
                     is_required: False
                     is_recommended: False
+            6:
+                task: deploy_invite_collaborators
+                ui_options:
+                    name: "Deploy collaborator invitation email + flow to send the email"
+                    is_required: False
+                    is_recommended: False
+            7:
+                task: deploy_review_email_notification
+                ui_options:
+                    name: "Deploy reviewer assignment email + flow to send the email"
+                    is_required: False
+                    is_recommended: False
+            8:
+                task: deploy_share_account_and_contact_with_collaborators_flow
+                ui_options:
+                    name: "Deploy Grants Management: Share Account and Contact with Collaborators (Sample) Flow"
+                    is_required: False
+                    is_recommended: False
+                checks:
+                    - when: "'AccountShare' not in tasks.check_sobjects_available()"
+                      action: hide

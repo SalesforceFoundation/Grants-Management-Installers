@@ -18,15 +18,22 @@
         <type>SalesforceObject</type>
     </navigationMenuItem>
     <navigationMenuItem>
-        <label>How to Apply</label>
+        <label>My Reviews</label>
         <position>3</position>
+        <publiclyAvailable>true</publiclyAvailable>
+        <target>outfunds__Review__c</target>
+        <type>SalesforceObject</type>
+    </navigationMenuItem>    
+    <navigationMenuItem>
+        <label>How to Apply</label>
+        <position>4</position>
         <publiclyAvailable>true</publiclyAvailable>
         <target>/how-to-apply</target>
         <type>InternalLink</type>
     </navigationMenuItem>
     <navigationMenuItem>
         <label>About Us</label>
-        <position>4</position>
+        <position>5</position>
         <publiclyAvailable>true</publiclyAvailable>
         <type>MenuLabel</type>
     </navigationMenuItem>

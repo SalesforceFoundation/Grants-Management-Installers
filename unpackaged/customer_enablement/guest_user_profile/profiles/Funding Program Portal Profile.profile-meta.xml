@@ -17,4 +17,8 @@
         <apexClass>%%%NAMESPACE%%%FundingProgramApplyButtonController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>%%%NAMESPACE%%%FundingRequestInvitationController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
 </Profile>
