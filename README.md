@@ -1,50 +1,23 @@
-# Grants Management Installers
+# Grants Management Express Setup
 
-Welcome to the Grants Management installers!
+This read-only repository contains CumulusCI automation and unmanaged metadata components used in the Grants Management MetaDeploy installer.
 
-Grants Management streamlines the grantmaking process and helps grantmakers cultivate and manage relationships with their grantees. Leveraging Salesforce Communities, Grants Management makes grantmaking a breeze through an intuitive, easy-to-use interface and backend automation.
-
-_IMPORTANT_: Salesforce does not recommend installing upgrades directly in production organizations. Instead, install Grants Management in one of your free sandbox environments or a developer organization first.
-
-Once you've installed Grants Management, check out these resources:
-
--   [Grants Management Documentation](https://powerofus.force.com/s/article/GM-Documentation)
--   [Salesforce Partner Community - Grants Management Experts Group](https://partners.salesforce.com/_ui/core/chatter/groups/GroupProfilePage?g=0F94V000000LpYeSAK)
-
-Please visit the [Grants Management customer group](https://trailhead.salesforce.com/trailblazer-community/groups/0F94S000000GvrgSAC) on the Trailblazer Community for any questions about Grants Management.
-
-## Prerequisites for all installers
-
--   Grants Management Permission Set Licenses (PSLs) and Customer Community Plus Login licenses must be provisioned in your Salesforce org. For help, work with your sales representative.
--   [Install CumulusCI](https://cumulusci.readthedocs.io/en/latest/get_started.html) and [connect your org to CumulusCI](https://cumulusci.readthedocs.io/en/latest/connected_orgs.html).
-    -   See the [CumulusCI Setup](https://trailhead.salesforce.com/en/content/learn/modules/cumulusci-setup) Trailhead module for step by step instructions how to [Review Base Requirements and Install Visual Studio Code](https://trailhead.salesforce.com/en/content/learn/modules/cumulusci-setup/review-base-requirements-install-visual-studio-code), [Install CumulusCI](https://trailhead.salesforce.com/en/content/learn/modules/cumulusci-setup/install-cumulusci), and [Connect to CumulusCI](https://trailhead.salesforce.com/en/content/learn/modules/cumulusci-setup/set-up-github-and-connect-to-cumulusci).
--   [Set Up My Domain](https://help.salesforce.com/s/articleView?id=sf.domain_name_setup.htm&type=5) in your Salesforce org.
--   [Enable Digital Experiences](https://help.salesforce.com/s/articleView?id=sf.workotcom_quemgmtenable_communities.htm&type=5) in your Salesforce org.
--   [Enable chatter](https://help.salesforce.com/s/articleView?id=sf.collab_enable.htm&type=5) for your Salesforce org.
-
-> **NOTE**: Make sure to complete all [Prerequisites for all installers](#Prerequisites-for-all-installers) before attempting any installation.
-
-# Installation errors
-
-To get help with any installation error, immediately execute the `cci error info` command in the terminal and go to [help.salesforce.com](https://help.salesforce.com/), find the Support & Services area and log a technical support ticket with Salesforce. Include “Grants Management” in the subject line and include the output of `cci error info` in your comment.
+Visit the [Grants Management customer group](https://trailhead.salesforce.com/trailblazer-community/groups/0F94S000000GvrgSAC) or [Salesforce Partner Community - Grants Management Experts Group](https://partners.salesforce.com/_ui/core/chatter/groups/GroupProfilePage?g=0F94V000000LpYeSAK) for any questions about this repository or Grants Management.
 
 # Installers
 
--   [Install Grants Management and Build Community](#Install-Grants-Management-and-Build-Community)
--   [Install Grants Management](#Install-Grants-Management)
--   [Install Grants Management Flows](#Install-Grants-Management-Flows)
-    -   [Deploy Grants Management: Multi-Section Application Form (Sample) and subflow](#Deploy-Grants-Management-Multi-Section-Application-Form-Sample-and-subflow)
-    -   [Deploy Enhanced Application (Sample) Flow](#Deploy-Enhanced-Application-Sample-Flow)
-    -   [Deploy Create Application Flow](#Deploy-Create-Application-Flow)
-    -   [Deploy Submit Application Flow](#Deploy-Submit-Application-Flow)
-    -   [Deploy Grants Management: Validate EIN (Sample) Flow](#Deploy-Grants-Management-Validate-EIN-Sample-Flow)
-    -   [Deploy collaborator invitation email + flow to send the email](#Deploy-collaborator-invitation-email-flow-to-send-the-email)
-    -   [Deploy reviewer assignment email + flow to send the email](#Deploy-reviewer-assignment-email-flow-to-send-the-email)
-    -   [Deploy Grants Management: Share Account and Contact with Collaborators (Sample) Flow](#Deploy-Grants-Management-Share-Account-and-Contact-with-Collaborators-Sample-Flow)
+-   [Grants Management and Funding Program Portal Community](#Grants-Management-and-Funding-Program-Portal-Community)
+-   [Grants Management, Only](#Grants-Management-Only)
+-   [Grants Management Flows](#Grants-Management-Flows)
+    -   [Grants Management: Multi-Section Application Form (Sample) and subflow](#Grants-Management-Multi-Section-Application-Form-Sample-and-subflow)
+    -   [Enhanced Application (Sample) Flow](#Enhanced-Application-Sample-Flow)
+    -   [Create Application Flow](#Create-Application-Flow)
+    -   [Submit Application Flow](#Submit-Application-Flow)
+    -   [Grants Management: Validate EIN (Sample) Flow](#Grants-Management-Validate-EIN-Sample-Flow)
 
-## Install Grants Management and Build Community
+## Grants Management and Funding Program Portal Community
 
-This installs Grants Management into your org. The installer creates a Community with the Grantee Portal template and applies our recommended configurations.
+This installs the recommended setup of Grants Management into your org. In addition to installing Grants Management, this installer creates a Community with the Grantee Portal template and applies our recommended configurations.
 
 | Steps                                                                                   | Type     |          |
 | --------------------------------------------------------------------------------------- | -------- | -------- |
@@ -71,15 +44,9 @@ This installs Grants Management into your org. The installer creates a Community
 | Create the email template, workflow alert and flow for collaborators invitations        | Metadata | Required |
 | Create the flow to share Applying Organization and Applying Contact with collaborators. | Metadata | Optional |
 
-To install, open a terminal at this repository and execute the following command:
+## Grants Management, Only
 
-```
-cci flow run customer_org_full --org <your connected Salesforce org>
-```
-
-## Install Grants Management
-
-This will install Grants Management into your org.
+This installs Grants Management into your org and doesn't create the Funding Program Portal.
 
 | Steps                                                                   | Type     |          |
 | ----------------------------------------------------------------------- | -------- | -------- |
@@ -95,80 +62,36 @@ This will install Grants Management into your org.
 | Deploy Grants Management: Validate EIN (Sample) Flow                    | Metadata | Required |
 | Install Outbound Funds NPSP Extension                                   | Package  | Optional |
 
-To install, open a terminal at this repository and execute the following command:
+## Grants Management Flows
 
-```
-cci flow run customer_org --org <your connected Salesforce org>
-```
+### Grants Management: Multi-Section Application Form (Sample) and subflow
 
-## Install Grants Management Flows
+The Grants Management: Multi-Section Application Form (Sample) flow shows a grantseeker an application with multiple sections and allows a grantseeker to save and return to the application. This flow is continuous until a grantseeker submits their application.
 
-Install or overwrite the selected unpackaged Grants Management flows in your org. After installation, you can access and activate earlier versions of previously-installed flows as needed. Be sure to create a backup of any changes before proceeding.
+### Enhanced Application (Sample) Flow
 
-> **Additional Prerequisites**
->
-> -   Grants Management version 1.17 is the minimum version required to (re)install any unpackaged Grants Management flows.
+The Enhanced Application (Sample) flow condenses the default application experience using the Create Application flow from three screens to one screen. This is a sample flow and includes example application language, unmapped custom fields, and a file upload component within a single page.
 
-### Deploy Grants Management: Multi-Section Application Form (Sample) and subflow
+### Create Application Flow
 
-To install or overwrite the Grants Management: Multi-Section Application Form (Sample) and subflow, open a terminal at this repository and execute the following command:
+The Create Application flow automates how the application initially starts for your grantseeker. This involves retrieving information about the Funding Program and user’s Contact information, autofilling fields on the application, and creating the application record. Without this flow, a grantseeker can’t apply for a Funding Request without making permission updates to the Grantseeker Plus Login profile.
 
-```
-cci task run deploy_multi_stage_app_flow --org <your connected Salesforce org>
-```
+### Submit Application Flow
 
-### Deploy Enhanced Application (Sample) Flow
+The Submit Application flow automates how a grantseeker’s application is submitted to an organization. The flow retrieves the application record, makes sure the user is both a site user and owner of the application, and updates the application before it is submitted. Without this flow, the grantseeker’s application can’t be submitted to your organization for review.
 
-To install or overwrite the Deploy Enhanced Application (Sample) Flow, open a terminal at this repository and execute the following command:
+### Grants Management: Validate EIN (Sample) Flow
 
-```
-cci task run deploy_enhanced_application_flow --org <your connected Salesforce org>
-```
-
-### Deploy Create Application Flow
-
-To install or overwrite the Create Application Flow, open a terminal at this repository and execute the following command:
-
-```
-cci task run deploy_funding_program_application_flow --org <your connected Salesforce org>
-```
-
-### Deploy Submit Application Flow
-
-To install or overwrite the Submit Application Flow, open a terminal at this repository and execute the following command:
-
-```
-cci task run deploy_submit_application_flow --org <your connected Salesforce org>
-```
-
-### Deploy Grants Management: Validate EIN (Sample) Flow
-
-To install or overwrite the Grants Management: Validate EIN (Sample) Flow, open a terminal at this repository and execute the following command:
-
-```
-cci task run deploy_validate_ein_flow --org <your connected Salesforce org>
-```
+The Grants Management: Validate EIN (Sample) Flow allows your grants managers to search for and validate the EIN of an organization.
 
 ### Deploy collaborator invitation email + flow to send the email
 
-To install or overwrite the collaborator invitation email + flow to send the email, open a terminal at this repository and execute the following command:
-
-```
-cci task run deploy_invite_collaborators --org <your connected Salesforce org>
-```
+The collaborator invitation email + flow emails collaborator invitations.
 
 ### Deploy reviewer assignment email + flow to send the email
 
-To install or overwrite the reviewer assignment email + flow to send the email, open a terminal at this repository and execute the following command:
-
-```
-cci task run deploy_review_email_notification --org <your connected Salesforce org>
-```
+The reviewer assignment email + flow emails reviewer notifications.
 
 ### Deploy Grants Management: Share Account and Contact with Collaborators (Sample) Flow
 
-To install or overwrite the Deploy Grants Management: Share Account and Contact with Collaborators (Sample) Flow, open a terminal at this repository and execute the following command:
-
-```
-cci task run deploy_share_account_and_contact_with_collaborators_flow --org <your connected Salesforce org>
-```
+The Deploy Grants Management: Share Account and Contact with Collaborators (Sample) Flow shares the Funding Request's related Account record with collaborators.
