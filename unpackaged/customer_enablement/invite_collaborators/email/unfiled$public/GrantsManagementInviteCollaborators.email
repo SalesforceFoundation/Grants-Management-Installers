@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initialscale=1.0" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <style type="text/css">@media screen and (max-width: 480px) {slot[style] {margin-right: 0 !important;}.columnDiv {margin-right: 0 !important;}}@media screen and (min-width: 480px) {slot[style] {margin-bottom: 0 !important;}.columnDiv {margin-bottom: 0 !important;}}</style>
+      <style type="text/css">@media screen and (max-width: 480px) {.contentbuilderBaseColumnRow .columnCell {display:inline-block;width:100%}}</style>
+      <style type="text/css">.contentpageDefaultEmailTemplatePageTemplate .contentRoot {width: 600px;}@media only screen and (max-width: 480px) {.contentpageDefaultEmailTemplatePageTemplate .contentRoot {width: 320px;}}</style>
+   </head>
+   <body>
+      <div id="contentpage_emailTemplatePreheader" style="display: none; visibility: hidden; font-size: 1px; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">
+         &nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌ 
+      </div>
+      <table role="presentation" id="contentpage_emailTemplateBodyContent" width="100%" cellpadding="0" cellspacing="0" class=" contentpageDefaultEmailTemplatePageTemplate" style="background-color: #E9EAEC;">
+         <tbody>
+            <tr>
+               <td width="100%" align="center">
+                  <table role="presentation" width="600" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" class=" contentRoot">
+                     <tbody>
+                        <tr>
+                           <td style="padding-top: 10px; padding-bottom: 10px; padding-left: 10px; padding-right: 10px;">
+                              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="" class=" contentbuilderBaseColumnRow">
+                                 <tbody>
+                                    <tr valign="top">
+                                       <td class="columnCell" style="vertical-align: top;display: inline-block;" width="41.66%">
+                                          <table style="width: 100%; border-collapse: collapse; word-break: break-word; ">
+                                             <tbody>
+                                                <tr>
+                                                   <td>
+                                                      <table id="contentRegion" role="presentation" cellspacing="0" cellpadding="0" locked="0" style="width:100%; border-collapse: collapse; word-break:break-word;">
+                                                         <tbody>
+                                                            <tr>
+                                                               <td align="Center"><img src="{[devName:HIVE_Foundation_logo]}" alt="" width="249" style="width: 100%; display: block; border: none; max-width: 100%;" /></td>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                   </td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </td>
+                                       <td class="columnCell" style="vertical-align: top;display: inline-block;" width="50%">
+                                          <table style="width: 100%; border-collapse: collapse; word-break: break-word; "></table>
+                                       </td>
+                                       <td class="columnCell" style="vertical-align: top;display: inline-block;" width="8.33%">
+                                          <table style="width: 100%; border-collapse: collapse; word-break: break-word; "></table>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="" class=" contentbuilderBaseColumnRow">
+                                 <tbody>
+                                    <tr valign="top">
+                                       <td class="columnCell" style="vertical-align: top;display: inline-block;" width="100%">
+                                          <table style="width: 100%; border-collapse: collapse; word-break: break-word; ">
+                                             <tbody>
+                                                <tr>
+                                                   <td>
+                                                      <table id="contentRegion" role="presentation" cellspacing="0" cellpadding="0" locked="0" style="width: 100%; border-collapse: collapse; word-break: break-word; font-size: 14px">
+                                                         <tbody>
+                                                            <tr>
+                                                               <td class=" manual" style="font-family: Arial, Helvetica, sans-serif;"><br /><br /><br /> &nbsp;</td>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                   </td>
+                                                </tr>
+                                                <tr>
+                                                   <td>
+                                                      <table id="contentRegion" role="presentation" cellspacing="0" cellpadding="0" locked="0" style="width: 100%; border-collapse: collapse; word-break: break-word; font-size: 14px">
+                                                         <tbody>
+                                                            <tr>
+                                                               <td class=" manual" style="font-family: Arial, Helvetica, sans-serif;">
+                                                                  <span style="font-size:16px;"><b>Invitation to Collaborate</b></span>
+                                                                  <p>{{{Sender.Name}}} ({{{Sender.Email}}}) would like to collaborate on this application in the {{{Organization.Name}}} grants portal:</p>
+                                                                  <b>{{{%%%NAMESPACE%%%FundRqstCollaboratorInvt__c.%%%NAMESPACE%%%FundingRequest__c}}}</b><br /><br /> This invitation expires on {{{%%%NAMESPACE%%%FundRqstCollaboratorInvt__c.%%%NAMESPACE%%%ExpirationDate__c}}}
+                                                               </td>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                   </td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="" class=" contentbuilderBaseColumnRow">
+                                 <tbody>
+                                    <tr valign="top">
+                                       <td class="columnCell" style="vertical-align: top;display: inline-block;" width="100%">
+                                          <table style="width: 100%; border-collapse: collapse; word-break: break-word; ">
+                                             <tbody>
+                                                <tr>
+                                                   <td>
+                                                      <table id="contentRegion" role="presentation" cellspacing="0" cellpadding="0" locked="0" style="width: 100%; border-collapse: collapse; word-break: break-word; font-size: 14px">
+                                                         <tbody>
+                                                            <tr>
+                                                               <td class=" manual" style="font-family: Arial, Helvetica, sans-serif;"><br /> &nbsp;</td>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                   </td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="" class=" contentbuilderBaseColumnRow">
+                                 <tbody>
+                                    <tr valign="top">
+                                       <td class="columnCell" style="vertical-align: top;display: inline-block;" width="100%">
+                                          <table style="width: 100%; border-collapse: collapse; word-break: break-word; ">
+                                             <tbody>
+                                                <tr>
+                                                   <td>
+                                                      <table locked="0" style="border: 0; width: 100%; border-collapse: collapse; mso-table-lspace:0pt;mso-table-rspace:0pt;">
+                                                         <tbody>
+                                                            <tr>
+                                                               <td style="mso-table-lspace:0pt;mso-table-rspace:0pt;">
+                                                                  <div style="word-break:break-word; border: 0; mso-border-alt: 0; text-align:left; ">
+                                                                     <div style="display: inline-block; border: 0; mso-border-alt: 0; ">
+                                                                        <a href="{{{%%%NAMESPACE%%%FundRqstCollaboratorInvt__c.%%%NAMESPACE%%%InvitationUrl__c}}}" target="_blank" style="direction:ltr;display:block;text-align:center;margin:0; font-family:Arial, Helvetica, sans-serif; font-size:16px; padding-top: 10px;padding-right: 20px;padding-bottom: 10px;padding-left: 20px; color:#ffffff;font-weight:normal;font-style:normal;text-decoration:none;border:0;background-color:#0176D3;border-radius:3px;mso-padding-alt:0;">
+                                                                           <!--[if mso]><i style="background-color:#0176D3; letter-spacing: 20px; mso-text-raise: 10px; mso-font-width: -100%;">&nbsp;</i><![endif]--><span>View Invitation</span> 
+                                                                           <!--[if mso]><i style="background-color:#0176D3; letter-spacing: 20px; mso-text-raise: -10px; mso-font-width: -100%;">&nbsp;</i><![endif]-->
+                                                                        </a>
+                                                                     </div>
+                                                                  </div>
+                                                               </td>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                   </td>
+                                                </tr>
+                                                <tr>
+                                                   <td>
+                                                      <table id="contentRegion" role="presentation" cellspacing="0" cellpadding="0" locked="0" style="width: 100%; border-collapse: collapse; word-break: break-word; font-size: 14px">
+                                                         <tbody>
+                                                            <tr>
+                                                               <td class=" manual" style="font-family: Arial, Helvetica, sans-serif;"><br /> &nbsp;</td>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                   </td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="" class=" contentbuilderBaseColumnRow">
+                                 <tbody>
+                                    <tr valign="top">
+                                       <td class="columnCell" style="vertical-align: top;display: inline-block;" width="100%">
+                                          <table style="width: 100%; border-collapse: collapse; word-break: break-word; ">
+                                             <tbody>
+                                                <tr>
+                                                   <td>
+                                                      <table id="contentRegion" role="presentation" cellspacing="0" cellpadding="0" locked="0" style="width: 100%; border-collapse: collapse; word-break: break-word; font-size: 14px">
+                                                         <tbody>
+                                                            <tr>
+                                                               <td class=" manual" style="font-family: Arial, Helvetica, sans-serif;">
+                                                                  <p><b>Don't have an account?</b></p>
+                                                                  <ol>
+                                                                     <li>Sign up for an account.</li>
+                                                                     <li>Come back here and click View Invitation.</li>
+                                                                  </ol>
+                                                                  <p>If you hit a snag with the {{{Organization.Name}}} grants portal, reach out to {{{Sender.Name}}} at&nbsp;<a href="mailto:{{{Sender.Email}}}">{{{Sender.Email}}}</a>.</p>
+                                                                  &nbsp; 
+                                                                  <p>You can also copy and paste this link to get to the invitation:</p>
+                                                                  <p><a href="{{{%%%NAMESPACE%%%FundRqstCollaboratorInvt__c.%%%NAMESPACE%%%InvitationUrl__c}}}">{{{%%%NAMESPACE%%%FundRqstCollaboratorInvt__c.%%%NAMESPACE%%%InvitationUrl__c}}}</a></p>
+                                                               </td>
+                                                            </tr>
+                                                         </tbody>
+                                                      </table>
+                                                   </td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+   </body>
+</html>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email notification when a grantseeker invites a collaborator on a funding request.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Grants Management: Email Invitation for Collaborators</name>
+    <relatedEntityType>%%%NAMESPACE%%%FundRqstCollaboratorInvt__c</relatedEntityType>
+    <style>none</style>
+    <subject>{{{Sender.Name}}} is inviting you to collaborate in the {{{Organization.Name}}} grants portal</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

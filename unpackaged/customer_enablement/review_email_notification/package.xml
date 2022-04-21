@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <name>EmailTemplate</name>
+        <members>unfiled$public/GrantsManagementReviewerAssignmentNotification</members>
+    </types>
+    <types>
+        <name>Workflow</name>
+        <members>outfunds__Review__c</members>
+    </types>
+    <types>
+        <name>Flow</name>
+        <members>GrantsManagementEmailAssignedReviewer</members>
+    </types>
+    <version>52.0</version>
+</Package>

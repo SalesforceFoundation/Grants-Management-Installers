@@ -1,0 +1,33 @@
+<html>
+ <head> 
+  <title></title> 
+ </head> 
+ <body style="height: auto; min-height: auto;"> 
+  <div style="text-align: center;"> 
+   <img alt="HIVE Foundation logo" src="{[devName:HIVE_Foundation_logo]}" style="max-width: 1610.25px; width: 350px; height: 117px;" title="HIVE Foundation logo" /> 
+  </div> 
+  <br /> 
+  <b>New Application to review:&nbsp;</b> 
+  <br /> 
+  <br /> {{{Sender.Name}}} ({{{Sender.Email}}}) assigned an application for you to review.&nbsp; 
+  <ul> 
+   <li>Application: {{{outfunds__Review__c.outfunds__FundingRequest__c}}}</li> 
+   <li>Due Date: {{{outfunds__Review__c.outfunds__DueDate__c}}}</li> 
+  </ul> &nbsp; 
+  <div style="text-align: center;"> 
+   <a href="{{{outfunds__Review__c.%%%NAMESPACE%%%ReviewUrl__c}}}" style="text-align: center; padding-top:10px; padding-bottom:10px; padding-left:20px; padding-right:20px; background-color:#0176D3; color:#fff; border-radius:3px; border:0; text-decoration:none;">Review Application</a> 
+  </div> 
+  <br /> 
+  <br /> 
+  <br /> Or access the review at this link:&nbsp; 
+  <br /> 
+  <a href="{{{outfunds__Review__c.%%%NAMESPACE%%%ReviewUrl__c}}}">{{{outfunds__Review__c.%%%NAMESPACE%%%ReviewUrl__c}}}</a> 
+  <br /> 
+  <br /> 
+  <b>Trying to view this review in the portal and can't see it?</b> 
+  <ol> 
+   <li>Log in or sign up for an account.</li> 
+   <li>Come back here and click Review Application</li> 
+  </ol> If you hit a snag, reach out to&nbsp;{{{Sender.Name}}} at {{{Sender.Email}}} 
+ </body>
+</html>

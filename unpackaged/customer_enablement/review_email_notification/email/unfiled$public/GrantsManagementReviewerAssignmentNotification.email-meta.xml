@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Notification that the user has been assigned a review</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Grants Management: Reviewer Assignment Notification</name>
+    <relatedEntityType>outfunds__Review__c</relatedEntityType>
+    <style>none</style>
+    <subject>{{{Organization.Name}}} - New application to review</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

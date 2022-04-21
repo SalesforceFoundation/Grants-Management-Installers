@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Submitted</label>
+    <protected>false</protected>
+    <values>
+        <field>%%%NAMESPACE%%%SubmittedState__c</field>
+        <value xsi:type="xsd:string">Default Submitted</value>
+    </values>
+    <values>
+        <field>%%%NAMESPACE%%%StatusApiName__c</field>
+        <value xsi:type="xsd:string">Submitted</value>
+    </values>    
+</CustomMetadata>

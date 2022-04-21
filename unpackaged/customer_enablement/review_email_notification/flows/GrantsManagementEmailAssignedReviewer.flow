@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Review_Assignment_Email_Alert</name>
+        <label>Review Assignment Email Alert</label>
+        <locationX>691</locationX>
+        <locationY>443</locationY>
+        <actionName>outfunds__Review__c.GrantsManagementEmailTheAssignedReviewer</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>49.0</apiVersion>
+    <decisions>
+        <name>Send_Notification_Email</name>
+        <label>Send Notification Email</label>
+        <locationX>382</locationX>
+        <locationY>444</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Send_Email</name>
+            <conditionLogic>( 1 OR 2) AND 3</conditionLogic>
+            <conditions>
+                <leftValueReference>ReviewIsNew</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>ReviewAssigneeIsUpdated</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.%%%NAMESPACE%%%DisplayStartDate__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>$Flow.CurrentDate</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Review_Assignment_Email_Alert</targetReference>
+            </connector>
+            <label>Send Email</label>
+        </rules>
+    </decisions>
+    <description>This sample flow emails the person assigned to a Review. Update this flow to fit your organization&apos;s needs.</description>
+    <formulas>
+        <name>ReviewAssigneeIsUpdated</name>
+        <dataType>Boolean</dataType>
+        <expression>ISCHANGED({!$Record.outfunds__AssignedTo__c})</expression>
+    </formulas>
+    <formulas>
+        <name>ReviewIsAvailable</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Record.%%%NAMESPACE%%%DisplayStartDate__c} = {!$Flow.CurrentDate}</expression>
+    </formulas>
+    <formulas>
+        <name>ReviewIsNew</name>
+        <dataType>Boolean</dataType>
+        <expression>ISNEW()</expression>
+    </formulas>
+    <interviewLabel>Grants Management: Email Assigned Reviewer (Sample) {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Grants Management: Email the Assigned Reviewer (Sample)</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>48</locationX>
+        <locationY>52</locationY>
+        <connector>
+            <targetReference>Send_Notification_Email</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>outfunds__AssignedTo__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </filters>
+        <object>outfunds__Review__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

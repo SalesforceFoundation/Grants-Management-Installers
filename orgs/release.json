@@ -1,6 +1,6 @@
 {
   "orgName": "SFDO-Grants - Release Test Org",
-  "edition": "Developer",
+  "edition": "Partner Enterprise",
   "features": ["GRANTSMANAGEMENTUSER", "Communities"],
   "settings": {
     "lightningExperienceSettings": {

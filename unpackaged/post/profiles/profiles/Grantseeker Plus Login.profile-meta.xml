@@ -213,6 +213,51 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>outfunds__Review__c.outfunds__AssignedTo__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>outfunds__Review__c.outfunds__Comments__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>outfunds__Review__c.outfunds__DueDate__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>outfunds__Review__c.outfunds__FundingRequest__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>outfunds__Review__c.outfunds__Status__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>outfunds__Review__c.outfunds__SubmittedDate__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>outfunds__Review__c.%%%NAMESPACE%%%IsMine__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>outfunds__Review__c.%%%NAMESPACE%%%IsDisplayed__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>outfunds__Review__c.%%%NAMESPACE%%%IsSubmitted__c</field>
+        <readable>false</readable>
+    </fieldPermissions>    
+    <fieldPermissions>
+        <editable>false</editable>
         <readable>true</readable>
         <field>outfunds__Disbursement__c.outfunds__Disbursement_Method__c</field>
     </fieldPermissions>
@@ -265,7 +310,77 @@
         <editable>false</editable>
         <readable>true</readable>
         <field>outfunds__Funding_Program__c.%%%NAMESPACE%%%ApplicationForm__c</field>
-    </fieldPermissions>       
+    </fieldPermissions>   
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>%%%NAMESPACE%%%FundRqstCollaborator__c.%%%NAMESPACE%%%Contact__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>%%%NAMESPACE%%%FundRqstCollaborator__c.%%%NAMESPACE%%%Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>%%%NAMESPACE%%%FundRqstCollaborator__c.%%%NAMESPACE%%%FirstName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>%%%NAMESPACE%%%FundRqstCollaborator__c.%%%NAMESPACE%%%LastName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>%%%NAMESPACE%%%FundRqstCollaborator__c.%%%NAMESPACE%%%Role__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>%%%NAMESPACE%%%FundRqstCollaborator__c.%%%NAMESPACE%%%Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>%%%NAMESPACE%%%FundRqstCollaborator__c.%%%NAMESPACE%%%User__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>%%%NAMESPACE%%%FundRqstCollaboratorInvt__c.%%%NAMESPACE%%%ExpirationDate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>%%%NAMESPACE%%%FundRqstCollaboratorInvt__c.%%%NAMESPACE%%%FirstName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>%%%NAMESPACE%%%FundRqstCollaboratorInvt__c.%%%NAMESPACE%%%FundRqstCollaborator__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>%%%NAMESPACE%%%FundRqstCollaboratorInvt__c.%%%NAMESPACE%%%InvitationUrl__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>%%%NAMESPACE%%%FundRqstCollaboratorInvt__c.%%%NAMESPACE%%%LastName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>%%%NAMESPACE%%%FundRqstCollaboratorInvt__c.%%%NAMESPACE%%%Role__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>%%%NAMESPACE%%%FundRqstCollaboratorInvt__c.%%%NAMESPACE%%%Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>outfunds__Funding_Program__c-%%%NAMESPACE%%%Community User - Funding Program Layout</layout>
     </layoutAssignments>
@@ -280,6 +395,15 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Account-%%%NAMESPACE%%%Grants Management Account Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>outfunds__Review__c-%%%NAMESPACE%%%Review Community Layout</layout>
+    </layoutAssignments>    
+    <layoutAssignments>
+        <layout>%%%NAMESPACE%%%FundRqstCollaborator__c-%%%NAMESPACE%%%Funding Request Collaborator Community Default</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>%%%NAMESPACE%%%FundRqstCollaboratorInvt__c-%%%NAMESPACE%%%Funding Request Collaborator Invitation Community Layout</layout>
     </layoutAssignments>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -321,6 +445,15 @@
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>false</allowEdit>
+        <allowRead>false</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>outfunds__Review__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>    
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>outfunds__Disbursement__c</object>
@@ -335,6 +468,24 @@
         <object>outfunds__Funding_Request_Role__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>%%%NAMESPACE%%%FundRqstCollaborator__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>%%%NAMESPACE%%%FundRqstCollaboratorInvt__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
     <tabVisibilities>
         <tab>outfunds__Funding_Program__c</tab>
         <visibility>DefaultOn</visibility>
@@ -345,6 +496,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>outfunds__Requirement__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>%%%NAMESPACE%%%FundRqstCollaborator__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <classAccesses>
@@ -377,6 +532,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>%%%NAMESPACE%%%FundingProgramApplyButtonController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>%%%NAMESPACE%%%FundingRequestCollaboratorController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>%%%NAMESPACE%%%FundingRequestInvitationController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <userLicense>Customer Community Plus Login</userLicense>
