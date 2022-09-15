@@ -138,7 +138,7 @@
             <label>Not logged in</label>
         </rules>
     </decisions>
-    <description>The Grants Management: Application Form Launcher (Sample) is the logic to launch the Grants Management: Multi-Section Application Form Screen (Sample). Clone this sample flow and make updates that fit your organization&apos;s needs. To learn more about flows, see Flows (https://help.salesforce.com/articleView?id=sf.flow.htm&amp;type=5) in Salesforce Help or take the Flow Basics Trailhead (https://trailhead.salesforce.com/content/learn/modules/flow-basics).</description>
+    <description>The Grants Management: Application Form Launcher (Sample) is the logic to launch the Grants Management: Multi-Section Application Form Screen (Sample). Clone this sample flow and make updates that fit your organization&apos;s needs. To learn more about flows, see Flows in Salesforce Help or take the Flow Basics Trailhead (https://trailhead.salesforce.com/content/learn/modules/flow-basics).</description>
     <formulas>
         <description>Safely returns the queried Contact.Account.BillingCity even if the User is not related to a Contact (for example, they aren&apos;t a site user).</description>
         <name>AccountBillingCity</name>
