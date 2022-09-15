@@ -143,7 +143,7 @@
     </decisions>
     <description>The Grants Management: Enhancement Application (Sample) is an example of an application that is designed to be completed on a single screen as opposed to multiple screens. This sample flow includes example application language, unmapped custom fields, and a file upload component. Clone this sample flow and make updates that fit your organization&apos;s needs.
 
-        To learn more about flows, see Flows (https://help.salesforce.com/articleView?id=sf.flow.htm&amp;type=5) in Salesforce Help or take the Flow Basics Trailhead (https://trailhead.salesforce.com/content/learn/modules/flow-basics).</description>
+        To learn more about flows, see Flows in Salesforce Help or take the Flow Basics Trailhead (https://trailhead.salesforce.com/content/learn/modules/flow-basics).</description>
     <dynamicChoiceSets>
         <name>GeographicalAreaServedChoices</name>
         <dataType>Picklist</dataType>

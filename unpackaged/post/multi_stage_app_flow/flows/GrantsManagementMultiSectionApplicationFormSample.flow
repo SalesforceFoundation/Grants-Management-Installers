@@ -136,7 +136,7 @@
         </rules>
     </decisions>
     <description>The Grants Management: Multi-Section Application Form (Sample) splits an application into sections and allows a grantseeker to save and return to an in progress application. This flow includes example application language, unmapped custom fields, and a file upload component. Clone this sample flow and make updates that fit your organization&apos;s needs.
-To learn more about flows, see Flows (https://help.salesforce.com/articleView?id=sf.flow.htm&amp;type=5) in Salesforce Help or take the Flow Basics Trailhead (https://trailhead.salesforce.com/content/learn/modules/flow-basics).</description>
+To learn more about flows, see Flows in Salesforce Help or take the Flow Basics Trailhead (https://trailhead.salesforce.com/content/learn/modules/flow-basics).</description>
     <formulas>
         <name>ApplicantOrganizationInformationStageLabel</name>
         <dataType>String</dataType>

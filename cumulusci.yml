@@ -231,7 +231,7 @@ plans:
         is_listed: True
         preflight_message: "This will install Grants Management into your org."
         post_install_message: "Thanks for installing Grants Management. Please visit the [Grants Management customer group](https://trailhead.salesforce.com/trailblazer-community/groups/0F94S000000GvrgSAC) on the Trailblazer Community for any questions about Grants Management."
-        error_message: "To get help with this error, go to [help.salesforce.com](https://help.salesforce.com/), find the Support & Services area and log a technical support ticket with Salesforce. Include “Grants Management” in the subject line and include in your comment the installation link shown here."
+        error_message: "To get help with this error, go to help.salesforce.com, find the Support & Services area and log a technical support ticket with Salesforce. Include “Grants Management” in the subject line and include in your comment the installation link shown here."
         checks:
             - when: "'.my.' not in org_config.instance_url"
               action: error
@@ -253,7 +253,7 @@ plans:
         is_listed: True
         preflight_message: "This installs Grants Management into your org. The installer creates a Community with the Grantee Portal template and applies our recommended configurations."
         post_install_message: "Thanks for installing Grants Management. Please visit the [Grants Management customer group](https://trailhead.salesforce.com/trailblazer-community/groups/0F94S000000GvrgSAC) on the Trailblazer Community for any questions about Grants Management."
-        error_message: "To get help with this error, go to [help.salesforce.com](https://help.salesforce.com/), find the Support & Services area and log a technical support ticket with Salesforce. Include “Grants Management” in the subject line and include in your comment the installation link shown here."
+        error_message: "To get help with this error, go to help.salesforce.com, find the Support & Services area and log a technical support ticket with Salesforce. Include “Grants Management” in the subject line and include in your comment the installation link shown here."
         checks:
             - when: "'.my.' not in org_config.instance_url"
               action: error
@@ -296,7 +296,7 @@ plans:
         is_listed: True
         preflight_message: "Install or overwrite the selected unpackaged Grants Management flows in your org. After installation, you can access and activate earlier versions of previously-installed flows as needed. Be sure to create a backup of any changes before proceeding."
         post_install_message: "Thanks for installing Grants Management flows. Please visit the [Grants Management customer group](https://trailhead.salesforce.com/trailblazer-community/groups/0F94S000000GvrgSAC) on the Trailblazer Community for any questions about Grants Management."
-        error_message: "To get help with this error, go to [help.salesforce.com](https://help.salesforce.com/), find the Support & Services area and log a technical support ticket with Salesforce. Include “Grants Management” in the subject line and include in your comment the installation link shown here."
+        error_message: "To get help with this error, go to help.salesforce.com, find the Support & Services area and log a technical support ticket with Salesforce. Include “Grants Management” in the subject line and include in your comment the installation link shown here."
         checks:
             - when: "not org_config.has_minimum_package_version('sfdo_grants', '1.17')"
               action: error
